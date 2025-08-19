@@ -362,3 +362,55 @@ section[id] { scroll-margin-top: 72px; }
 .p-nav:disabled { opacity: .4; cursor: default; }
 .p-nav.prev { left: .2rem; }
 .p-nav.next { right: .2rem; }
+
+
+.section.alt2 {
+  position: relative;
+  isolation: isolate;      /* keep effects contained to this section */
+  background: none;        /* draw gradient on ::before layer */
+}
+
+.section.alt2::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;             /* sit behind content, above page background */
+
+  /* Soft, brand-tinted corners over the solid alt base */
+  background:
+    radial-gradient(900px 460px at 12% 8%,
+      color-mix(in srgb, var(--brand) 22%, transparent) 0%,
+      transparent 70%),
+    radial-gradient(820px 420px at 88% 92%,
+      color-mix(in srgb, var(--brand-2) 22%, transparent) 0%,
+      transparent 72%),
+    var(--bg-alt);
+  transform: translateZ(0); /* avoids subpixel seams on some GPUs */
+}
+
+
+/* ===== About page: portrait sizing ===== */
+.about-portrait {
+  display: grid;
+  justify-items: center;
+  gap: .6rem;
+}
+
+.about-portrait .profile-pic {
+  /* Scales nicely from mobile to desktop */
+  inline-size: clamp(180px, 28vw, 320px);
+  block-size: clamp(180px, 28vw, 320px);
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  background: var(--bg-alt);
+}
+
+/* Optional: small, muted caption under the photo */
+.about-portrait figcaption {
+  font-size: .9rem;
+  color: var(--muted);
+}

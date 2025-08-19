@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#0b0f1a" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="ampere insights — Open Energy Modeling" />
+  <meta property="og:title" content="ampere insight — Open Energy Modeling" />
   <meta property="og:description" content="Transparent, reproducible energy models in Python (Pyomo, PyPSA) — flexible and 10× cheaper than legacy tools." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="og-image.png" />
@@ -27,6 +27,20 @@
 
   <link rel="stylesheet" href="styles.css" />
   <script defer src="main.js"></script>
+    <!-- Favicons -->
+
+<link rel="icon" href="/assets/logo2.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/logo2.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="/assets/logo2.png" sizes="180x180">
+
+<!-- Optional: light/dark variants -->
+<link rel="icon" href="/favicon-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon-light.svg" type="image/svg+xml" media="(prefers-color-scheme: light)">
+
+<!-- PWA / Android (optional but nice) -->
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0b0f1a">
+
 </head>
 <body>
   <!-- Decorative background orbs -->
@@ -40,16 +54,16 @@
         <!-- Dark-theme logo (default) -->
         <img
           class="logo logo-dark"
-          src="assets/logo.png"
-          srcset="assets/logo.png 1x, assets/logo.png 2x"
+          src="assets/logo2.png"
+          srcset="assets/logo2.png 1x, assets/logo2.png 2x"
           alt="Open Energy Modeling"
           width="112" height="112" />
 
         <!-- Light-theme logo -->
         <img
           class="logo logo-light"
-          src="assets/logo1.png"
-          srcset="assets/logo1.png 1x, assets/logo1.png 2x"
+          src="assets/logo2.png"
+          srcset="assets/logo2.png 1x, assets/logo2.png 2x"
           alt=""
           aria-hidden="true"
           width="112" height="112" />
@@ -65,10 +79,11 @@
         </button>
         <ul class="nav-list">
           <!-- Text changed to Projects, keeps #models anchor for compatibility -->
-          <li><a href="#models">Projects</a></li>
+                      <li><a href="#models">Projects</a></li>
           <li><a href="#approach">Approach</a></li>
           <li><a href="#principles">Principles</a></li>
           <li><a href="#faq">FAQ</a></li>
+            <li><a href="about.html">About</a></li>
           <li><a class="btn btn-ghost" href="#contact">Contact</a></li>
           <li><button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">☾</button></li>
         </ul>
@@ -462,7 +477,7 @@ minimize(total_cost) subject to balance, capacity, and network constraints
 
 
     <!-- CONTACT -->
-    <section id="contact" class="section alt">
+    <section id="contact" class="section alt2">
       <div class="container grid-2">
         <div>
           <h2 class="h2">Let’s build your model</h2>
@@ -499,6 +514,7 @@ minimize(total_cost) subject to balance, capacity, and network constraints
     <div class="container footer-inner">
       <small>© <span id="year"></span> Ampere Insight. All rights reserved.</small>
       <nav class="footer-nav">
+          <li><a href="about.html">About</a></li>
         <a href="#principles">Principles</a>
         <a href="#faq">FAQ</a>
         <a href="#" aria-disabled="true">Privacy</a>
