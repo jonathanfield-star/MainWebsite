@@ -43,14 +43,24 @@ body {
   margin: 0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
   color: var(--text);
-  background:
-    radial-gradient(1200px 600px at 10% -10%, rgba(96,165,250,.08), transparent 60%),
-    radial-gradient(1000px 600px at 90% 20%, rgba(34,211,238,.06), transparent 60%),
-    var(--bg);
+  background: var(--bg); /* solid base — gradients moved to body::before */
   line-height: 1.6;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
+/* Paint page gradients on a fixed layer to avoid seams in sections */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -4;
+  pointer-events: none;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(96,165,250,.08), transparent 60%),
+    radial-gradient(1000px 600px at 90% 20%, rgba(34,211,238,.06), transparent 60%),
+    var(--bg);
+}
+
 img, svg, video { max-width: 100%; display: block; }
 a { color: var(--brand); text-decoration: none; }
 a:hover { text-decoration: underline; }
@@ -61,11 +71,24 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 .6rem; }
 
 /* Containers & Layout */
 .container { width: min(1120px, 92%); margin: 0 auto; }
-.section { padding: 5rem 0; position: relative; }
+
+/* Sections
+   - Base sections are transparent (show gradients)
+   - .alt sections are solid bands (clear separation)
+   - isolation avoids weird blending with fixed layers
+*/
+.section {
+  position: relative;
+  padding: 5rem 0;
+  background: transparent;
+  isolation: isolate;
+}
 .section.alt { background: var(--bg-alt); }
+
 .section-header { margin-bottom: 2rem; }
 .section-sub { color: var(--muted); }
 
+/* Grid helpers */
 .grid-2 { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
 @media (max-width: 960px) {
@@ -119,10 +142,9 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 .6rem; }
 }
 .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(59,130,246,.35); text-decoration: none; }
 .btn:active { transform: translateY(0); }
-.btn.btn-ghost {
-  background: transparent; color: var(--text); border: 1px solid var(--border); box-shadow: none;
-}
+.btn.btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); box-shadow: none; }
 .small { padding: .55rem .8rem; font-size: .9rem; }
+
 .chip {
   border: 1px solid var(--border); background: var(--bg); color: var(--text);
   border-radius: 999px; padding: .45rem .8rem; cursor: pointer;
@@ -148,9 +170,12 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 .6rem; }
 
 .hero-panel .code-card pre {
   margin: 0; padding: 1rem 1.2rem; border-radius: calc(var(--radius) - 2px);
-  background: #0c1424; color: #d7e2ff; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  background: #0c1424; color: #d7e2ff;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   border: 1px solid #1b2a49; overflow: auto;
 }
+
+/* Cards */
 .glass.card {
   background: color-mix(in srgb, var(--card) 75%, transparent);
   border: 1px solid var(--border);
@@ -254,7 +279,7 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 .6rem; }
 /* Background decorative orbs */
 .bg-orb {
   position: fixed; width: 480px; height: 480px; border-radius: 50%;
-  filter: blur(60px); opacity: .25; pointer-events: none; z-index: -1;
+  filter: blur(60px); opacity: .25; pointer-events: none; z-index: -3; /* below sections, above body::before */
   background: radial-gradient(circle at 30% 30%, var(--brand), transparent 60%);
 }
 .orb-1 { top: -160px; left: -120px; }
@@ -274,17 +299,21 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 .6rem; }
 html[data-theme="light"] .logo-dark { display:none; }
 html[data-theme="light"] .logo-light { display:block; }
 
+/* Anchor jumps land below sticky header */
+section[id] { scroll-margin-top: 72px; }
+
 /* =======================================================================
    Principles carousel
-   - Edge fade via CSS mask (no painted bg), so it blends with section bg
-   - No scale on active card (prevents text blur)
+   - Edge fade via CSS mask (no painted overlay), blends with section bg
+   - No scale on active card (prevents text blur / pop)
    ======================================================================= */
 
 .p-wrap { position: relative; margin-top: .6rem; }
 .p-view {
   overflow: hidden;
   padding: .4rem 0 1rem;
-  /* Edge fade via mask */
+
+  /* Edge fade via mask (no background paint) */
   --p-fade: 64px;
   -webkit-mask-image: linear-gradient(to right,
     transparent 0,
@@ -300,8 +329,7 @@ html[data-theme="light"] .logo-light { display:block; }
 .p-track {
   list-style: none; margin: 0; padding: 0;
   display: flex; align-items: stretch; gap: 1.2rem;
-  /* Let the browser decide compositing; forcing transform can blur text */
-  will-change: auto;
+  will-change: auto; /* avoid forced compositing (crisper text) */
 }
 .p-slide { flex: 0 0 auto; }
 .p-card {
@@ -314,7 +342,7 @@ html[data-theme="light"] .logo-light { display:block; }
   .p-card { width: clamp(360px, 36vw, 520px); }
 }
 .p-card.is-active {
-  transform: none; /* no scale => crisp text */
+  transform: none;        /* no scale => crisp text, no pop */
   opacity: 1;
   border-color: color-mix(in srgb, var(--brand) 32%, var(--border));
   box-shadow: 0 10px 28px rgba(59,130,246,.14);
@@ -334,8 +362,3 @@ html[data-theme="light"] .logo-light { display:block; }
 .p-nav:disabled { opacity: .4; cursor: default; }
 .p-nav.prev { left: .2rem; }
 .p-nav.next { right: .2rem; }
-
-@media (prefers-reduced-motion: reduce) {
-  .p-card { transition: none; }
-}
-
