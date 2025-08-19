@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ampere insights — Open Energy Modeling</title>
+  <meta name="description" content="Open-source energy systems modeling with Pyomo, PyPSA, and Python. Transparent, reproducible, and a fraction of legacy tool costs." />
+  <meta name="theme-color" content="#0b0f1a" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="ampere insights — Open Energy Modeling" />
+  <meta property="og:description" content="Transparent, reproducible energy models in Python (Pyomo, PyPSA) — flexible and 10× cheaper than legacy tools." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="og-image.png" />
+
+  <!-- JSON-LD (basic Website schema) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"ampere insights",
+    "url":"https://example.com",
+    "description":"Open-source energy systems modeling with Pyomo, PyPSA, and Python.",
+    "keywords":"energy systems, PyPSA, Pyomo, optimization, electricity market, capacity expansion"
+  }
+  </script>
+
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="main.js"></script>
+</head>
+<body>
+  <!-- Decorative background orbs -->
+  <div class="bg-orb orb-1" aria-hidden="true"></div>
+  <div class="bg-orb orb-2" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#hero" aria-label="Home">
+        <!-- Minimal SVG logo -->
+        <svg class="logo" width="28" height="28" viewBox="0 0 24 24" role="img" aria-label="Logo">
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" />
+              <stop offset="100%" />
+            </linearGradient>
+          </defs>
+          <rect x="3" y="3" width="18" height="18" rx="4" fill="url(#g)"/>
+          <path d="M7 15c3-6 7-6 10 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+        </svg>
+        <span class="brand-name">ampere insights</span>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+        </button>
+        <ul class="nav-list">
+          <li><a href="#models">Models</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="#approach">Approach</a></li>
+          <li><a href="#principles">Principles</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a class="btn btn-ghost" href="#contact">Contact</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">☾</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section id="hero" class="section hero">
+      <div class="container grid-2">
+        <div class="hero-copy">
+          <h1 class="h1">Energy system models, <span class="accent">open & auditable</span>.</h1>
+          <p class="lead">
+            I build transparent, production-ready models of power systems using <strong>Python</strong>,
+            <strong>Pyomo</strong>, and <strong>PyPSA</strong>—flexible, reproducible, and typically
+            <strong>10× cheaper</strong> than legacy black-box tools.
+          </p>
+          <div class="hero-cta">
+            <a class="btn" href="#models">Explore Models</a>
+            <a class="btn btn-ghost" href="#contact">Start a Project</a>
+          </div>
+
+          <ul class="badges" aria-label="Open-source stack">
+            <li class="badge">PyPSA</li>
+            <li class="badge">Pyomo</li>
+            <li class="badge">NumPy</li>
+            <li class="badge">Pandas</li>
+            <li class="badge">SciPy</li>
+          </ul>
+
+          <div class="kpis">
+            <div class="kpi">
+              <span class="kpi-num">10×</span>
+              <span class="kpi-txt">Cost reduction</span>
+            </div>
+            <div class="kpi">
+              <span class="kpi-num">100%</span>
+              <span class="kpi-txt">Model transparency</span>
+            </div>
+            <div class="kpi">
+              <span class="kpi-num">⚡</span>
+              <span class="kpi-txt">Rapid iteration</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-panel">
+          <div class="glass card code-card" aria-label="Demo objective function snippet">
+<pre><code>// objective: min total system cost
+min Σ (capex_g * build_g + capex_s * build_s
+     + opex_g * gen_g_t + opex_s * charge_s_t)
+subject to:
+  demand_t = Σ gen_g_t + discharge_s_t - curtail_t
+  gen_g_t ≤ avail_g_t · cap_g
+  power_flow ≤ thermal_limits
+</code></pre>
+            <div class="card-footer">
+              <button class="btn btn-ghost small" data-copy="#copy-text">Copy snippet</button>
+              <span id="copy-text" class="sr-only">
+minimize(total_cost) subject to balance, capacity, and network constraints
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODELS -->
+    <section id="models" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="h2">Model portfolio</h2>
+          <p class="section-sub">Demonstrative and client-ready models. Click a tag to filter.</p>
+        </div>
+
+        <div class="filters" role="tablist" aria-label="Model filters">
+          <button class="chip is-active" data-filter="all" role="tab" aria-selected="true">All</button>
+          <button class="chip" data-filter="grid">Grid</button>
+          <button class="chip" data-filter="storage">Storage</button>
+          <button class="chip" data-filter="planning">Planning</button>
+          <button class="chip" data-filter="markets">Markets</button>
+          <button class="chip" data-filter="microgrid">Microgrid</button>
+        </div>
+
+        <div class="grid-3 cards">
+          <!-- Card 1 -->
+          <article class="card model in-view" data-tags="grid planning">
+            <div class="card-body">
+              <h3 class="card-title">UK Power System Dispatch (PyPSA)</h3>
+              <p class="card-text">
+                National-scale DC load-flow with security-constrained dispatch, RES curtailment, and congestion pricing.
+              </p>
+              <ul class="tags">
+                <li>Grid</li><li>Planning</li><li>PyPSA</li>
+              </ul>
+            </div>
+            <div class="card-actions">
+              <a class="btn small" href="#" aria-disabled="true">Live Demo</a>
+              <a class="btn btn-ghost small" href="case-study.html?slug=uk-grid">Case Study</a>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="card model" data-tags="storage planning">
+            <div class="card-body">
+              <h3 class="card-title">Battery Sizing Optimizer (Pyomo)</h3>
+              <p class="card-text">
+                Co-optimises power/energy rating with degradation and round-trip losses; NPV-driven sizing.
+              </p>
+              <ul class="tags">
+                <li>Storage</li><li>Planning</li><li>Pyomo</li>
+              </ul>
+            </div>
+            <div class="card-actions">
+              <a class="btn small" href="#" aria-disabled="true">Live Demo</a>
+              <a class="btn btn-ghost small" href="case-study.html?slug=battery-sizing">Case Study</a>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="card model" data-tags="planning markets">
+            <div class="card-body">
+              <h3 class="card-title">Capacity Expansion (CE)</h3>
+              <p class="card-text">
+                Long-run least-cost build plan with policy constraints (CfDs, cap-and-floor, CfD strike limits).
+              </p>
+              <ul class="tags">
+                <li>Planning</li><li>Markets</li><li>Pyomo</li>
+              </ul>
+            </div>
+            <div class="card-actions">
+              <a class="btn small" href="#" aria-disabled="true">Explorer</a>
+              <a class="btn btn-ghost small" href="case-study.html?slug=capacity-expansion">Case Study</a>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="card model" data-tags="microgrid storage">
+            <div class="card-body">
+              <h3 class="card-title">Microgrid Design Tool</h3>
+              <p class="card-text">
+                MILP for PV-BESS-genset optimal sizing, outage survivability, and demand response strategies.
+              </p>
+              <ul class="tags">
+                <li>Microgrid</li><li>Storage</li><li>MILP</li>
+              </ul>
+            </div>
+            <div class="card-actions">
+              <a class="btn small" href="#" aria-disabled="true">Configurator</a>
+              <a class="btn btn-ghost small" href="case-study.html?slug=microgrid">Case Study</a>
+            </div>
+          </article>
+
+          <!-- Card 5 -->
+          <article class="card model" data-tags="markets grid">
+            <div class="card-body">
+              <h3 class="card-title">Curtailment Minimisation</h3>
+              <p class="card-text">
+                Redispatch & storage arbitrage to reduce RES curtailment; locational marginal cost reporting.
+              </p>
+              <ul class="tags">
+                <li>Markets</li><li>Grid</li><li>PyPSA</li>
+              </ul>
+            </div>
+            <div class="card-actions">
+              <a class="btn small" href="#" aria-disabled="true">Sandbox</a>
+              <a class="btn btn-ghost small" href="case-study.html?slug=curtailment">Case Study</a>
+            </div>
+          </article>
+
+          <!-- Card 6 -->
+          <article class="card model" data-tags="markets storage">
+            <div class="card-body">
+              <h3 class="card-title">EV Charging Scheduler</h3>
+              <p class="card-text">
+                Stochastic scheduling against day-ahead & imbalance markets with network constraints.
+              </p>
+              <ul class="tags">
+                <li>Markets</li><li>Storage</li><li>Stochastic</li>
+              </ul>
+            </div>
+            <div class="card-actions">
+              <a class="btn small" href="#" aria-disabled="true">UI</a>
+              <a class="btn btn-ghost small" href="case-study.html?slug=ev-charging">Case Study</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- APPROACH -->
+    <section id="approach" class="section alt">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="h2">How I work</h2>
+          <p class="section-sub">Clear steps from idea to production.</p>
+        </div>
+
+        <ol class="timeline">
+          <li class="step">
+            <div class="step-dot"></div>
+            <div class="step-body">
+              <h3>Frame</h3>
+              <p>Translate business needs into KPIs, constraints, and datasets. Define reproducible scope.</p>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-dot"></div>
+            <div class="step-body">
+              <h3>Model</h3>
+              <p>Formulate in Pyomo/PyPSA with tests, scenarios, and CI. Open, well-documented code.</p>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-dot"></div>
+            <div class="step-body">
+              <h3>Validate</h3>
+              <p>Back-test vs. historicals; sensitivity & stress testing; performance profiling.</p>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-dot"></div>
+            <div class="step-body">
+              <h3>Deploy</h3>
+              <p>Deliver notebooks, dashboards, or lightweight APIs. Handover + training.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- PRINCIPLES -->
+    <section id="principles" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="h2">Guiding principles</h2>
+        </div>
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title">Open > Opaque</h3>
+              <p>Transparent models beat black boxes. Every decision is inspectable and reproducible.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title">Flexibility by Design</h3>
+              <p>Pythonic components make new markets, assets, and policies plug-and-play.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title">Cost Discipline</h3>
+              <p>Open-source stacks and cloud-savvy workflows deliver 10× value without license bloat.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section alt">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="h2">FAQ</h2>
+        </div>
+        <details class="faq-item">
+          <summary>Do you replace tools like PLEXOS or just complement them?</summary>
+          <p>Usually replace for new work; can export/import data to interoperate for transitions.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What stack do you use?</summary>
+          <p>Python (PyPSA, Pyomo, NumPy, Pandas, SciPy), plotted with Plotly/Matplotlib, packaged with Poetry.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How do engagements work?</summary>
+          <p>Fixed-fee discovery, milestone deliverables, optional support retainer. All code delivered.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="container grid-2">
+        <div>
+          <h2 class="h2">Let’s build your model</h2>
+          <p class="section-sub">Quick intro call or send a brief. I’ll respond within one business day.</p>
+          <ul class="contact-list">
+            <li>📧 <a href="mailto:hello@example.com">hello@example.com</a></li>
+            <li>🔗 <a href="#" aria-disabled="true">LinkedIn</a></li>
+            <li>🐙 <a href="#" aria-disabled="true">GitHub</a></li>
+          </ul>
+        </div>
+        <form class="contact-form" action="mailto:hello@example.com" method="post" enctype="text/plain">
+          <label>
+            <span>Your name</span>
+            <input name="name" type="text" placeholder="Ada Lovelace" required />
+          </label>
+          <label>
+            <span>Email</span>
+            <input name="email" type="email" placeholder="you@domain.com" required />
+          </label>
+          <label>
+            <span>Message</span>
+            <textarea name="message" rows="5" placeholder="What would you like to model?" required></textarea>
+          </label>
+          <button class="btn" type="submit">Send</button>
+          <p class="form-note">Tip: replace the mailto with your form handler when you’re ready.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <button class="to-top" aria-label="Back to top">↑</button>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <small>© <span id="year"></span> ampere insights. All rights reserved.</small>
+      <nav class="footer-nav">
+        <a href="#principles">Principles</a>
+        <a href="#faq">FAQ</a>
+        <a href="#" aria-disabled="true">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Accessibility helper -->
+  <span class="sr-only" id="focus-sentinel" tabindex="-1">End of page</span>
+</body>
+</html>

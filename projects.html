@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Projects — Open Energy Modeling</title>
+  <meta name="description" content="Portfolio of open-source energy systems models: grid dispatch, battery sizing, capacity expansion, microgrids, and more." />
+  <meta name="theme-color" content="#0b0f1a" />
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="main.js"></script>
+</head>
+<body>
+  <div class="bg-orb orb-1" aria-hidden="true"></div>
+  <div class="bg-orb orb-2" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html#hero" aria-label="Home">
+        <svg class="logo" width="28" height="28" viewBox="0 0 24 24" role="img" aria-label="Logo">
+          <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%"/><stop offset="100%"/></linearGradient></defs>
+          <rect x="3" y="3" width="18" height="18" rx="4" fill="url(#g)"/>
+          <path d="M7 15c3-6 7-6 10 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+        </svg>
+        <span class="brand-name">Open Energy Modeling</span>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span>
+        </button>
+        <ul class="nav-list">
+          <li><a href="index.html#models">Models</a></li>
+          <li><a href="projects.html" aria-current="page">Projects</a></li>
+          <li><a href="index.html#approach">Approach</a></li>
+          <li><a href="index.html#principles">Principles</a></li>
+          <li><a href="index.html#faq">FAQ</a></li>
+          <li><a class="btn btn-ghost" href="index.html#contact">Contact</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">☾</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="section hero">
+      <div class="container">
+        <h1 class="h1">Projects</h1>
+        <p class="lead">A growing showcase of open, auditable energy-system models. Filter by focus or search keywords.</p>
+        <div class="filters" role="tablist" aria-label="Project filters">
+          <button class="chip is-active" data-filter="all" role="tab" aria-selected="true">All</button>
+          <button class="chip" data-filter="grid">Grid</button>
+          <button class="chip" data-filter="storage">Storage</button>
+          <button class="chip" data-filter="planning">Planning</button>
+          <button class="chip" data-filter="markets">Markets</button>
+          <button class="chip" data-filter="microgrid">Microgrid</button>
+          <label class="chip" style="cursor:text;border-style:dashed;">
+            <input id="project-search" type="search" placeholder="Search…" aria-label="Search projects"
+                   style="all:unset; padding:.1rem .2rem; min-width:160px;" />
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIST -->
+    <section class="section">
+      <div class="container">
+        <div class="grid-3 cards" id="projects-grid">
+          <!-- Project cards (match slugs used in case-study.html) -->
+          <article class="card project" data-tags="grid planning pypsa" data-title="UK Power System Dispatch" data-desc="National-scale DC load-flow, security-constrained dispatch, RES curtailment and LMPs.">
+            <div class="card-body">
+              <h3 class="card-title">UK Power System Dispatch (PyPSA)</h3>
+              <p class="card-text">National-scale DC load-flow with security-constrained dispatch, RES curtailment, and LMPs.</p>
+              <ul class="tags"><li>Grid</li><li>Planning</li><li>PyPSA</li></ul>
+            </div>
+            <div class="card-actions">
+              <a class="btn small" href="case-study.html?slug=uk-grid">View case study</a>
+              <a class="btn btn-ghost small" href="#" aria-disabled="true">Live demo</a>
+            </div>
+          </article>
+
+          <article class="card project" data-tags="storage planning pyomo" data-title="Battery Sizing Optimizer" data-desc="Co-optimises power/energy with degradation and losses; NPV-driven sizing.">
+            <div class="card-body">
+              <h3 class="card-title">Battery Sizing Optimizer (Pyomo)</h3>
+              <p class="card-text">Co-optimises power/energy rating with degradation and round-trip losses; NPV-driven sizing.</p>
+              <ul class="tags"><li>Storage</li><li>Planning</li><li>Pyomo</li></ul>
+            </div>
+            <div class="card-actions">
+              <a class="btn small" href="case-study.html?slug=battery-sizing">View case study</a>
+              <a class="btn btn-ghost small" href="#" aria-disabled="true">Notebook</a>
+            </div>
+          </article>
+
+          <article class="card project" data-tags="planning markets pyomo" data-title="Capacity Expansion" data-desc="Long-run least-cost build plan with policy constraints.">
+            <div class="card-body">
+              <h3 class="card-title">Capacity Expansion (CE)</h3>
+              <p class="card-text">Long-run least-cost build plan with policy constraints (CfDs, cap-and-floor, strike limits).</p>
+              <ul class="tags"><li>Planning</li><li>Markets</li><li>Pyomo</li></ul>
+            </div>
+            <div class="card-actions">
+              <a class="btn small" href="case-study.html?slug=capacity-expansion">View case study</a>
+              <a class="btn btn-ghost small" href="#" aria-disabled="true">Docs</a>
+            </div>
+          </article>
+
+          <article class="card project" data-tags="microgrid storage milp" data-title="Microgrid Design Tool" data-desc="PV-BESS-genset optimal sizing, outage survivability, demand response.">
+            <div class="card-body">
+              <h3 class="card-title">Microgrid Design Tool</h3>
+              <p class="card-text">MILP for PV-BESS-genset optimal sizing, outage survivability, and demand response strategies.</p>
+              <ul class="tags"><li>Microgrid</li><li>Storage</li><li>MILP</li></ul>
+            </div>
+            <div class="card-actions">
+              <a class="btn small" href="case-study.html?slug=microgrid">View case study</a>
+              <a class="btn btn-ghost small" href="#" aria-disabled="true">Configurator</a>
+            </div>
+          </article>
+
+          <article class="card project" data-tags="markets grid pypsa" data-title="Curtailment Minimisation" data-desc="Redispatch & storage arbitrage to reduce RES curtailment; LMP reporting.">
+            <div class="card-body">
+              <h3 class="card-title">Curtailment Minimisation</h3>
+              <p class="card-text">Redispatch & storage arbitrage to reduce RES curtailment; locational marginal cost reporting.</p>
+              <ul class="tags"><li>Markets</li><li>Grid</li><li>PyPSA</li></ul>
+            </div>
+            <div class="card-actions">
+              <a class="btn small" href="case-study.html?slug=curtailment">View case study</a>
+              <a class="btn btn-ghost small" href="#" aria-disabled="true">Sandbox</a>
+            </div>
+          </article>
+
+          <article class="card project" data-tags="markets storage stochastic" data-title="EV Charging Scheduler" data-desc="Stochastic scheduling for DA & imbalance markets with network constraints.">
+            <div class="card-body">
+              <h3 class="card-title">EV Charging Scheduler</h3>
+              <p class="card-text">Stochastic scheduling against day-ahead & imbalance markets with network constraints.</p>
+              <ul class="tags"><li>Markets</li><li>Storage</li><li>Stochastic</li></ul>
+            </div>
+            <div class="card-actions">
+              <a class="btn small" href="case-study.html?slug=ev-charging">View case study</a>
+              <a class="btn btn-ghost small" href="#" aria-disabled="true">Repo</a>
+            </div>
+          </article>
+        </div>
+
+        <div style="margin-top:1.2rem">
+          <a class="btn" href="index.html#contact">Start a project</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <button class="to-top" aria-label="Back to top">↑</button>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <small>© <span id="year"></span> Open Energy Modeling. All rights reserved.</small>
+      <nav class="footer-nav">
+        <a href="index.html#principles">Principles</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="#" aria-disabled="true">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+  <span class="sr-only" id="focus-sentinel" tabindex="-1">End of page</span>
+</body>
+</html>

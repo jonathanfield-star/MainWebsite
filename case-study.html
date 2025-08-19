@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Case Study — Open Energy Modeling</title>
+  <meta name="description" content="Detailed case study: open-source energy systems modeling with Python (PyPSA, Pyomo)." />
+  <meta name="theme-color" content="#0b0f1a" />
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="main.js"></script>
+</head>
+<body>
+  <div class="bg-orb orb-1" aria-hidden="true"></div>
+  <div class="bg-orb orb-2" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html#hero" aria-label="Home">
+        <svg class="logo" width="28" height="28" viewBox="0 0 24 24" role="img" aria-label="Logo">
+          <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%"/><stop offset="100%"/></linearGradient></defs>
+          <rect x="3" y="3" width="18" height="18" rx="4" fill="url(#g)"/>
+          <path d="M7 15c3-6 7-6 10 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+        </svg>
+        <span class="brand-name">Open Energy Modeling</span>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span>
+        </button>
+        <ul class="nav-list">
+          <li><a href="index.html#models">Models</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="index.html#approach">Approach</a></li>
+          <li><a href="index.html#principles">Principles</a></li>
+          <li><a href="index.html#faq">FAQ</a></li>
+          <li><a class="btn btn-ghost" href="index.html#contact">Contact</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">☾</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Breadcrumb / hero populated by JS -->
+    <section class="section alt" id="case-hero">
+      <div class="container">
+        <nav class="section-sub" aria-label="Breadcrumb">
+          <a href="index.html#hero">Home</a> · <a href="projects.html">Projects</a> · <span id="crumb-title">Case Study</span>
+        </nav>
+        <h1 class="h1" id="case-title">Case Study</h1>
+        <p class="lead" id="case-subtitle">Detailed write-up.</p>
+        <ul class="badges" id="case-tags" aria-label="Tags"></ul>
+        <div class="kpis" id="case-kpis"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container grid-2" id="case-summary">
+        <!-- left: summary; right: code/figure -->
+      </div>
+    </section>
+
+    <section class="section alt" id="case-sections">
+      <div class="container">
+        <!-- dynamic sections -->
+      </div>
+    </section>
+
+    <section class="section" id="case-cta">
+      <div class="container">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">Have a similar challenge?</h3>
+            <p class="card-text">I can adapt this approach to your system and constraints.</p>
+          </div>
+          <div class="card-actions">
+            <a class="btn" href="index.html#contact">Start a project</a>
+            <a class="btn btn-ghost" id="prev-link" href="case-study.html">← Previous</a>
+            <a class="btn btn-ghost" id="next-link" href="case-study.html">Next →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <button class="to-top" aria-label="Back to top">↑</button>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <small>© <span id="year"></span> Open Energy Modeling. All rights reserved.</small>
+      <nav class="footer-nav">
+        <a href="index.html#principles">Principles</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="#" aria-disabled="true">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Minimal dataset the page will render (extend/modify as you wish). -->
+  <script type="application/json" id="case-data">
+  {
+    "order": ["uk-grid", "battery-sizing", "capacity-expansion", "microgrid", "curtailment", "ev-charging"],
+    "items": {
+      "uk-grid": {
+        "title": "UK Power System Dispatch (PyPSA)",
+        "subtitle": "National-scale DC load-flow with security-constrained dispatch, RES curtailment and LMPs.",
+        "tags": ["Grid","Planning","PyPSA"],
+        "kpis": [
+          {"num":"~1.2M","txt":"variables across 8760h"},
+          {"num":"< 4 min","txt":"solve time (annual)"},
+          {"num":"LMPs","txt":"per bus & time-step"}
+        ],
+        "summary": "Operational model of the GB grid with zonal/bus-level resolution, DC power flow, security constraints (N-1 optional), and congestion-induced redispatch.",
+        "code": "// objective: minimize total system cost with congestion pricing\nmin Σ(capex + opex + penalty_curtailment)\nsubject to: balance, capacity, DC flow limits, reserve margins",
+        "sections": [
+          ["Problem","Quantify congestion impacts and curtailment drivers under high-RES scenarios while producing interpretable LMPs."],
+          ["Approach","PyPSA-based DCOPF with generator and storage units, piecewise-linear costs, optional reserve and N-1 approximations. Scenario runner for weather & load years."],
+          ["Data","ENTSO-E load, NG ESO TEC for generators, OpenStreetMap lines; synthetic parameters where required. Automated ETL with Pandas."],
+          ["Model & Methods","Buses, lines with susceptance, generators, storage. Constraints: nodal balance, thermal limits, ramping, SoC dynamics. Results emitter for LMPs, flows, curtailment."],
+          ["Results","Heatmaps of curtailment by region, binding lines, and LMP spreads. Storage provides redispatch and reduces RES spill by 21–34% in tested scenarios."],
+          ["Validation","Back-test on historical week/month samples; compare price spreads vs. published LMP proxies; line loading sanity checks."],
+          ["Deliverables","Notebooks, PyPSA model, CSV outputs, optional Plotly dashboard."]
+        ]
+      },
+      "battery-sizing": {
+        "title": "Battery Sizing Optimizer (Pyomo)",
+        "subtitle": "Co-optimises power/energy with degradation and losses; NPV-driven sizing.",
+        "tags": ["Storage","Planning","Pyomo"],
+        "kpis": [
+          {"num":"IRR +3–7%","txt":"vs. naive sizing"},
+          {"num":"Degradation","txt":"cycle calendar mix"},
+          {"num":"NPV","txt":"incl. capex/opex"}
+        ],
+        "summary": "MILP sizing of BESS power (MW) and energy (MWh) with efficiency, aging, and revenue stacking (arbitrage + services).",
+        "code": "maximize NPV(build_power, build_energy) subject to SoC dynamics, degradation, and market revenues",
+        "sections": [
+          ["Problem","Choose cost-optimal BESS power/energy considering degradation and market strategy."],
+          ["Approach","Pyomo MILP with linearized degradation and service eligibility constraints; sensitivity over prices and capex."],
+          ["Results","Pareto of MW/MWh trade-offs; optimal ratios 0.7–1.2 hours in sample cases; IRR uplift vs fixed ratios."],
+          ["Deliverables","Parameterised model, CSV reports, and a simple web UI (optional)."]
+        ]
+      },
+      "capacity-expansion": {
+        "title": "Capacity Expansion (CE)",
+        "subtitle": "Long-run least-cost build plan with policy constraints.",
+        "tags": ["Planning","Markets","Pyomo"],
+        "kpis": [{"num":">10 yrs","txt":"horizon"},{"num":"Policy","txt":"CfDs, caps"},{"num":"CO₂","txt":"carbon budget"}],
+        "summary": "Multi-year capacity expansion with endogenous retirements and policy handles (CfDs, cap-and-floor).",
+        "code": "minimize Σ_t (capex_build_t + opex_t + policy_costs_t) with energy balance and reserve adequacy",
+        "sections": [
+          ["Approach","Stage-wise CE with perfect foresight baseline; stochastic extension optional."],
+          ["Results","Build-out timing, resource mix, LCOE and emissions trajectories."]
+        ]
+      },
+      "microgrid": {
+        "title": "Microgrid Design Tool",
+        "subtitle": "PV-BESS-genset MILP for reliability and cost.",
+        "tags": ["Microgrid","Storage","MILP"],
+        "kpis": [{"num":"99.95%","txt":"served load"},{"num":"$","txt":"NPC min"},{"num":"CO₂","txt":"reduction"}],
+        "summary": "Sizing and dispatch co-optimisation for remote sites with outage survivability constraints.",
+        "code": "min NPC with reliability ≥ target; variables: PV, BESS, genset sizes and dispatch",
+        "sections": [
+          ["Approach","Hourly demand & weather; LOLP constraints; generator wear costs; demand response toggles."]
+        ]
+      },
+      "curtailment": {
+        "title": "Curtailment Minimisation",
+        "subtitle": "Redispatch & storage arbitrage to reduce RES spill.",
+        "tags": ["Markets","Grid","PyPSA"],
+        "kpis": [{"num":"-21–34%","txt":"curtailment"},{"num":"LMP","txt":"spread cut"},{"num":"$","txt":"savings"}],
+        "summary": "Evaluate storage siting and redispatch rules to cut RES curtailment.",
+        "code": "min curtailment + redispatch_cost subject to network and unit constraints",
+        "sections": [
+          ["Approach","Storage siting heuristic + DCOPF redispatch; constraint shadow price diagnostics."]
+        ]
+      },
+      "ev-charging": {
+        "title": "EV Charging Scheduler",
+        "subtitle": "Stochastic scheduling for DA & imbalance markets.",
+        "tags": ["Markets","Storage","Stochastic"],
+        "kpis": [{"num":"-12%","txt":"energy cost"},{"num":"95%","txt":"SoC targets"},{"num":"Grid","txt":"limits respected"}],
+        "summary": "Chance-constrained scheduling of EV fleets with feeder constraints and price uncertainty.",
+        "code": "min expected_cost with SoC chance constraints and line ampacity limits",
+        "sections": [
+          ["Approach","Scenario set from historical DA/imbalance; feeder headroom constraint; rolling re-optimisation."]
+        ]
+      }
+    }
+  }
+  </script>
+
+  <!-- Mount point for JS renderer -->
+  <div id="case-root" class="sr-only"></div>
+</body>
+</html>
