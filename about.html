@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About — Ampere Insight</title>
+  <meta name="description" content="About ampere insight — open, transparent energy system modeling with Python, Pyomo, and PyPSA." />
+  <meta name="theme-color" content="#0b0f1a" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="About — ampere insights" />
+  <meta property="og:description" content="Why we started, how we work, and who we are." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="og-image.png" />
+
+  <!-- JSON-LD (Organization) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"ampere insight",
+    "url":"https://example.com",
+    "sameAs": [],
+    "description":"Open-source energy systems modeling with Pyomo, PyPSA, and Python."
+  }
+  </script>
+
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="main.js"></script>
+
+  <!-- Favicons (match index) -->
+  <link rel="icon" href="/assets/logo2.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="/assets/logo2.png" sizes="16x16" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/logo2.png" sizes="180x180">
+  <link rel="icon" href="/favicon-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/favicon-light.svg" type="image/svg+xml" media="(prefers-color-scheme: light)">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#0b0f1a">
+</head>
+<body>
+  <!-- Decorative background orbs -->
+  <div class="bg-orb orb-1" aria-hidden="true"></div>
+  <div class="bg-orb orb-2" aria-hidden="true"></div>
+
+  <!-- Header (same structure as index; links point back to index sections) -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html#hero" aria-label="Home">
+        <img
+          class="logo logo-dark"
+          src="assets/logo2.png"
+          srcset="assets/logo2.png 1x, assets/logo2.png 2x"
+          alt="ampere insight logo"
+          width="112" height="112" />
+        <img
+          class="logo logo-light"
+          src="assets/logo2.png"
+          srcset="assets/logo2.png 1x, assets/logo2.png 2x"
+          alt=""
+          aria-hidden="true"
+          width="112" height="112" />
+        <span class="brand-name">Ampere Insight</span>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+        </button>
+        <ul class="nav-list">
+          <li><a href="index.html#models">Projects</a></li>
+          <li><a href="index.html#approach">Approach</a></li>
+          <li><a href="index.html#principles">Principles</a></li>
+          <li><a href="index.html#faq">FAQ</a></li>
+            <li><a href="about.html">About</a></li>
+          <li><a class="btn btn-ghost" href="index.html#contact">Contact</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">☾</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ABOUT HERO -->
+    <section id="about-hero" class="section hero">
+      <div class="container grid-2">
+        <div>
+          <h1 class="h1">About Ampere Insight</h1>
+          <p class="lead">
+            We build open, auditable energy system models that decision-makers can trust. Our focus is speed, clarity, and ownership: models you understand, code you control, and results you can act on.
+          </p>
+          <div class="hero-cta">
+            <a class="btn" href="index.html#models">See our work</a>
+            <a class="btn btn-ghost" href="index.html#contact">Get in touch</a>
+          </div>
+        </div>
+        <div>
+          <div class="glass card">
+            <div class="card-body">
+              <h3 class="card-title">Why we started</h3>
+              <p class="card-text">
+                After years wrestling with slow, opaque, license-bound tools, we wanted a better way. Open-source modeling (PyPSA, Pyomo, Python) lets us move faster, be transparent, and tailor the model to your system — without lock-in or black boxes.
+              </p>
+              <ul class="tags" style="margin-top:.6rem;">
+                <li>Open source</li><li>Transparent</li><li>Fast</li><li>Bespoke</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STORY / MOTIVATION -->
+    <section id="story" class="section alt">
+      <div class="container grid-2">
+        <div>
+          <h2 class="h2">Our motivation</h2>
+          <p class="section-sub">From legacy bottlenecks to open, collaborative modeling.</p>
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title">Frustrated with slow legacy solutions</h3>
+              <p class="card-text">
+                Traditional tools often mean weeks of setup, license friction, and black-box assumptions. We believe modeling should be iterative, inspectable, and accessible to your whole team.
+              </p>
+            </div>
+          </div>
+          <div class="card" style="margin-top:1rem;">
+            <div class="card-body">
+              <h3 class="card-title">Speed & openness by default</h3>
+              <p class="card-text">
+                Using Python, PyPSA, and Pyomo, we co-develop models with you, validate against historicals, and communicate uncertainty clearly — so decisions are faster and better.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title">What this means for you</h3>
+              <p class="card-text">
+                No expensive licenses. Transparent code and assumptions. A model that fits your system and KPIs. And if you want, we’ll hand everything over and help you run it in-house long-term.
+              </p>
+              <ul class="tags">
+                <li>Own the code</li><li>Clear outputs</li><li>Cost-effective</li><li>Scalable</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card" style="margin-top:1rem;">
+            <div class="card-body">
+              <h3 class="card-title">How we work</h3>
+              <p class="card-text">
+                We start with discovery to align on objectives and data, build collaboratively with regular reviews, explain results and actions, then hand over or continue as your modeling partner.
+              </p>
+              <div class="card-actions">
+                <a class="btn small" href="index.html#approach">See the approach</a>
+                <a class="btn btn-ghost small" href="index.html#principles">Guiding principles</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section id="team" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="h2">Meet the team</h2>
+          <p class="section-sub">Small by design, focused on outcomes.</p>
+        </div>
+
+        <div class="grid-2">
+          <article class="card" style="align-self:start;">
+            <div class="card-body">
+              <h3 class="card-title">Jonathan Field</h3>
+              <p class="card-text">
+                Founder & lead modeler. Jonathan specialises in power-systems optimization and data-driven decision support — from capacity expansion and dispatch to storage sizing and microgrids.
+              </p>
+              <ul class="tags">
+                <li>PyPSA</li><li>Pyomo</li><li>Markets</li><li>Storage</li><li>Grid</li>
+              </ul>
+            </div>
+            <div class="card-actions">
+              <!-- Replace the href with Jonathan’s actual LinkedIn URL -->
+              <a class="btn small" href="https://www.linkedin.com/in/jonathan-field-910143294/" target="_blank" rel="noopener">LinkedIn</a>
+              <a class="btn btn-ghost small" href="index.html#contact">Get in touch</a>
+            </div>
+          </article>
+
+          <aside class="card" aria-label="Profile photo">
+            <figure class="about-portrait">
+  <img class="profile-pic" src="assets/jonathan_field.jpg" alt="Jonathan Field" width="200" height="200" loading="lazy">
+  <figcaption>Jonathan Field — Founder</figcaption>
+</figure>
+            <div class="card-body">
+              <p class="card-text">
+                Prefer a quick intro call? We’re happy to share example repos, discuss scope, or review your current setup.
+              </p>
+              <div class="card-actions">
+                <a class="btn" href="index.html#contact">Contact form</a>
+                <a class="btn btn-ghost" href="index.html#models">View projects</a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="about-cta" class="section alt2">
+      <div class="container grid-2">
+        <div>
+          <h2 class="h2">Ready to explore a model?</h2>
+          <p class="section-sub">Send a brief or book a 20-minute intro — we’ll reply within one business day.</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:.6rem;">
+          <a class="btn" href="index.html#contact">Get in touch</a>
+          <a class="btn btn-ghost" href="index.html#models">See examples</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <button class="to-top" aria-label="Back to top">↑</button>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <small>© <span id="year"></span> Ampere Insight. All rights reserved.</small>
+      <nav class="footer-nav">
+        <a href="index.html#principles">Principles</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="#" aria-disabled="true">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <span class="sr-only" id="focus-sentinel" tabindex="-1">End of page</span>
+</body>
+</html>
