@@ -35,29 +35,27 @@
 
   <header class="site-header">
     <div class="container header-inner">
+      <!-- Brand -->
+      <a class="brand" href="#hero" aria-label="Home">
+        <!-- Dark-theme logo (default) -->
+        <img
+          class="logo logo-dark"
+          src="assets/logo.png"
+          srcset="assets/logo.png 1x, assets/logo.png 2x"
+          alt="Open Energy Modeling"
+          width="112" height="112" />
 
-        <!-- Minimal SVG logo -->
-        <a class="brand" href="#hero" aria-label="Home">
-  <!-- Dark-theme logo (default) -->
-          <img
-            class="logo logo-dark"
-            src="assets/logo.png"
-            srcset="assets/logo.png 1x, assets/logo.png 2x"
-            alt="Open Energy Modeling"
-            width="112" height="112" />
+        <!-- Light-theme logo -->
+        <img
+          class="logo logo-light"
+          src="assets/logo1.png"
+          srcset="assets/logo1.png 1x, assets/logo1.png 2x"
+          alt=""
+          aria-hidden="true"
+          width="112" height="112" />
 
-          <!-- Light-theme logo -->
-          <img
-            class="logo logo-light"
-            src="assets/logo1.png"
-            srcset="assets/logo1.png 1x, assets/logo1.png 2x"
-            alt=""
-            aria-hidden="true"
-            width="112" height="112" />
-
-          <span class="brand-name">Ampere Insights</span>
-        </a>
-
+        <span class="brand-name">Ampere Insights</span>
+      </a>
 
       <nav class="nav" aria-label="Primary">
         <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
@@ -66,8 +64,8 @@
           <span class="nav-toggle-bar"></span>
         </button>
         <ul class="nav-list">
-          <li><a href="#models">Models</a></li>
-          <li><a href="projects.html">Projects</a></li>
+          <!-- Text changed to Projects, keeps #models anchor for compatibility -->
+          <li><a href="#models">Projects</a></li>
           <li><a href="#approach">Approach</a></li>
           <li><a href="#principles">Principles</a></li>
           <li><a href="#faq">FAQ</a></li>
@@ -90,7 +88,7 @@
             <strong>10× cheaper</strong> than legacy black-box tools.
           </p>
           <div class="hero-cta">
-            <a class="btn" href="#models">Explore Models</a>
+            <a class="btn" href="#models">Explore Projects</a>
             <a class="btn btn-ghost" href="#contact">Start a Project</a>
           </div>
 
@@ -139,15 +137,15 @@ minimize(total_cost) subject to balance, capacity, and network constraints
       </div>
     </section>
 
-    <!-- MODELS -->
+    <!-- PROJECTS (keeps id="models" for JS; text shows Project Portfolio) -->
     <section id="models" class="section">
       <div class="container">
         <div class="section-header">
-          <h2 class="h2">Model portfolio</h2>
-          <p class="section-sub">Demonstrative and client-ready models. Click a tag to filter.</p>
+          <h2 class="h2">Project Portfolio</h2>
+          <p class="section-sub">Demonstrative and client-ready projects. Click a tag to filter.</p>
         </div>
 
-        <div class="filters" role="tablist" aria-label="Model filters">
+        <div class="filters" role="tablist" aria-label="Project filters">
           <button class="chip is-active" data-filter="all" role="tab" aria-selected="true">All</button>
           <button class="chip" data-filter="grid">Grid</button>
           <button class="chip" data-filter="storage">Storage</button>
@@ -169,8 +167,7 @@ minimize(total_cost) subject to balance, capacity, and network constraints
               </ul>
             </div>
             <div class="card-actions">
-              <a class="btn small" href="#" aria-disabled="true">Live Demo</a>
-              <a class="btn btn-ghost small" href="case-study.html?slug=uk-grid">Case Study</a>
+              <a class="btn small" href="case-study.html?slug=uk-grid">Learn more</a>
             </div>
           </article>
 
@@ -186,8 +183,7 @@ minimize(total_cost) subject to balance, capacity, and network constraints
               </ul>
             </div>
             <div class="card-actions">
-              <a class="btn small" href="#" aria-disabled="true">Live Demo</a>
-              <a class="btn btn-ghost small" href="case-study.html?slug=battery-sizing">Case Study</a>
+              <a class="btn small" href="case-study.html?slug=battery-sizing">Learn more</a>
             </div>
           </article>
 
@@ -203,8 +199,7 @@ minimize(total_cost) subject to balance, capacity, and network constraints
               </ul>
             </div>
             <div class="card-actions">
-              <a class="btn small" href="#" aria-disabled="true">Explorer</a>
-              <a class="btn btn-ghost small" href="case-study.html?slug=capacity-expansion">Case Study</a>
+              <a class="btn small" href="case-study.html?slug=capacity-expansion">Learn more</a>
             </div>
           </article>
 
@@ -220,8 +215,7 @@ minimize(total_cost) subject to balance, capacity, and network constraints
               </ul>
             </div>
             <div class="card-actions">
-              <a class="btn small" href="#" aria-disabled="true">Configurator</a>
-              <a class="btn btn-ghost small" href="case-study.html?slug=microgrid">Case Study</a>
+              <a class="btn small" href="case-study.html?slug=microgrid">Learn more</a>
             </div>
           </article>
 
@@ -237,8 +231,7 @@ minimize(total_cost) subject to balance, capacity, and network constraints
               </ul>
             </div>
             <div class="card-actions">
-              <a class="btn small" href="#" aria-disabled="true">Sandbox</a>
-              <a class="btn btn-ghost small" href="case-study.html?slug=curtailment">Case Study</a>
+              <a class="btn small" href="case-study.html?slug=curtailment">Learn more</a>
             </div>
           </article>
 
@@ -254,11 +247,13 @@ minimize(total_cost) subject to balance, capacity, and network constraints
               </ul>
             </div>
             <div class="card-actions">
-              <a class="btn small" href="#" aria-disabled="true">UI</a>
-              <a class="btn btn-ghost small" href="case-study.html?slug=ev-charging">Case Study</a>
+              <a class="btn small" href="case-study.html?slug=ev-charging">Learn more</a>
             </div>
           </article>
         </div>
+          <div style="margin-top:1.2rem">
+  <a class="btn" href="#contact">Start a project</a>
+</div>
       </div>
     </section>
 
@@ -402,3 +397,4 @@ minimize(total_cost) subject to balance, capacity, and network constraints
   <span class="sr-only" id="focus-sentinel" tabindex="-1">End of page</span>
 </body>
 </html>
+
