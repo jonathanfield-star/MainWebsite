@@ -332,61 +332,141 @@ minimize(total_cost) subject to balance, capacity, and network constraints
 
 
     <!-- PRINCIPLES -->
-    <section id="principles" class="section">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="h2">Guiding principles</h2>
-        </div>
-        <div class="grid-3">
-          <div class="card">
-            <div class="card-body">
-              <h3 class="card-title">Open > Opaque</h3>
-              <p>Transparent models beat black boxes. Every decision is inspectable and reproducible.</p>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-body">
-              <h3 class="card-title">Flexibility by Design</h3>
-              <p>Pythonic components make new markets, assets, and policies plug-and-play.</p>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-body">
-              <h3 class="card-title">Cost Discipline</h3>
-              <p>Open-source stacks and cloud-savvy workflows deliver 10× value without license bloat.</p>
-            </div>
-          </div>
-        </div>
+<section id="principles" class="section alt">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="h2">Guiding principles</h2>
+      <p class="section-sub">Open, transparent, bespoke — and focused on decisions you can act on.</p>
+    </div>
+
+    <div class="p-wrap">
+      <button class="p-nav prev" id="p-prev" aria-label="Previous principle">←</button>
+
+      <div class="p-view" id="principles-view" tabindex="0"
+           aria-roledescription="carousel" aria-label="Guiding principles">
+        <ul class="p-track" id="principles-track">
+          <!-- Slides (originals). JS will clone ends for circular loop -->
+          <li class="p-slide">
+            <article class="card p-card" data-key="open">
+              <div class="card-body">
+                <h3 class="card-title">Open & democratized</h3>
+                <p class="card-text">
+                  100% open-source stack — no expensive licenses or lock-in. You own the code and can run it anywhere.
+                </p>
+              </div>
+            </article>
+          </li>
+
+          <li class="p-slide">
+            <article class="card p-card" data-key="transparent">
+              <div class="card-body">
+                <h3 class="card-title">Transparent & auditable</h3>
+                <p class="card-text">
+                  Every constraint, assumption, and dataset is visible, versioned, and reproducible end-to-end.
+                </p>
+              </div>
+            </article>
+          </li>
+
+          <li class="p-slide">
+            <article class="card p-card" data-key="bespoke">
+              <div class="card-body">
+                <h3 class="card-title">Bespoke from the ground up</h3>
+                <p class="card-text">
+                  Models are built around <em>your</em> system and KPIs — not a generic template — so they fit first time.
+                </p>
+              </div>
+            </article>
+          </li>
+
+          <li class="p-slide">
+            <article class="card p-card" data-key="flexible">
+              <div class="card-body">
+                <h3 class="card-title">Flexible by design</h3>
+                <p class="card-text">
+                  PyPSA/Pyomo modules make new assets, markets, and policies plug-and-play as your needs evolve.
+                </p>
+              </div>
+            </article>
+          </li>
+
+          <li class="p-slide">
+            <article class="card p-card" data-key="clarity">
+              <div class="card-body">
+                <h3 class="card-title">Clear decisions, not just charts</h3>
+                <p class="card-text">
+                  We interpret outputs with you — drivers, trade-offs, and uncertainty — into concrete next actions.
+                </p>
+              </div>
+            </article>
+          </li>
+
+          <li class="p-slide">
+            <article class="card p-card" data-key="cost">
+              <div class="card-body">
+                <h3 class="card-title">Cost-effective efficiency</h3>
+                <p class="card-text">
+                  Lean, transparent modeling to improve system efficiency and value for money across scenarios.
+                </p>
+              </div>
+            </article>
+          </li>
+        </ul>
       </div>
-    </section>
+
+      <button class="p-nav next" id="p-next" aria-label="Next principle">→</button>
+    </div>
+  </div>
+</section>
+
 
     <!-- FAQ -->
-    <section id="faq" class="section alt">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="h2">FAQ</h2>
-        </div>
-        <details class="faq-item">
-          <summary>Do you replace tools like PLEXOS or just complement them?</summary>
-          <p>Usually replace for new work; can export/import data to interoperate for transitions.</p>
-        </details>
-        <details class="faq-item">
-          <summary>What stack do you use?</summary>
-          <p>Python (PyPSA, Pyomo, NumPy, Pandas, SciPy), plotted with Plotly/Matplotlib, packaged with Poetry.</p>
-        </details>
-        <details class="faq-item">
-          <summary>How do engagements work?</summary>
-          <p>Fixed-fee discovery, milestone deliverables, optional support retainer. All code delivered.</p>
-        </details>
-      </div>
-    </section>
+    <!-- FAQ -->
+<section id="faq" class="section alt">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="h2">FAQ</h2>
+    </div>
+
+    <details class="faq-item">
+      <summary>Do you replace tools like PLEXOS or just complement them?</summary>
+      <p>Usually replace for new work. We build open, transparent models that cover your scope without license costs. For transitions, we can export/import data and interoperate alongside PLEXOS during a handover period.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>What stack do you use?</summary>
+      <p>Python-first: PyPSA, Pyomo, NumPy, Pandas, SciPy; visualizations in Plotly/Matplotlib; packaging with Poetry; CI with GitHub/GitLab; all open-source. Code, data, and assumptions live in a clean repo with docs and tests.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>How do engagements work?</summary>
+      <p>Fixed-fee discovery to align on scope and KPIs → collaborative model build with regular reviews → validation & stress tests → results walkthrough with clear actions. Afterwards: full handover and training, or an ongoing support retainer.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Who owns the model and IP? Can we run it in-house?</summary>
+      <p>You do. Deliverables are provided under a permissive license, built on open-source dependencies. We set you up to run everything internally (repo, environments, CI), and train your team so you’re not dependent on us.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>How do you validate results and deal with uncertainty?</summary>
+      <p>Back-tests against historical periods, sensitivity and stress testing on key parameters, and peer-reviewed assumptions. We present drivers and ranges (not just point estimates) so decisions reflect uncertainty realistically.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>What do you need from us? How do you handle data security?</summary>
+      <p>Objectives/KPIs, any constraints or policies, and access to relevant datasets (or contacts). We sign NDAs, use private repos, minimize PII, and can work inside your cloud/VPN if preferred. All data handling is documented and reproducible.</p>
+    </details>
+  </div>
+</section>
+
 
     <!-- CONTACT -->
     <section id="contact" class="section">
       <div class="container grid-2">
         <div>
           <h2 class="h2">Let’s build your model</h2>
-          <p class="section-sub">Quick intro call or send a brief. I’ll respond within one business day.</p>
+          <p class="section-sub">Quick intro call or send a brief. We’ll respond within one business day.</p>
           <ul class="contact-list">
             <li>📧 <a href="mailto:hello@example.com">hello@example.com</a></li>
             <li>🔗 <a href="#" aria-disabled="true">LinkedIn</a></li>

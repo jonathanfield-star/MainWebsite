@@ -1,6 +1,6 @@
 /* =======================================================================
-   Open Energy Modeling – Base styles
-   Reusable across pages. Dark-first design with CSS variables & utilities.
+   ampere insight — Base styles
+   Dark-first design with CSS variables & utilities.
    ======================================================================= */
 
 :root {
@@ -15,6 +15,8 @@
   --brand-2: #22d3ee; /* secondary accent */
   --shadow: 0 10px 30px rgba(16, 24, 40, .08);
   --radius: 16px;
+
+  /* Timeline */
   --tl-pad: 56px;
   --tl-line-x: 28px;
   --dot-size: 16px;
@@ -34,20 +36,21 @@ html[data-theme="dark"] {
   --radius: 16px;
 }
 
+/* Reset & base */
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 body {
   margin: 0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
   color: var(--text);
-  background: radial-gradient(1200px 600px at 10% -10%, rgba(96,165,250,.08), transparent 60%),
-              radial-gradient(1000px 600px at 90% 20%, rgba(34,211,238,.06), transparent 60%),
-              var(--bg);
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(96,165,250,.08), transparent 60%),
+    radial-gradient(1000px 600px at 90% 20%, rgba(34,211,238,.06), transparent 60%),
+    var(--bg);
   line-height: 1.6;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
-
 img, svg, video { max-width: 100%; display: block; }
 a { color: var(--brand); text-decoration: none; }
 a:hover { text-decoration: underline; }
@@ -65,7 +68,10 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 .6rem; }
 
 .grid-2 { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
-@media (max-width: 960px) { .grid-2 { grid-template-columns: 1fr; } .grid-3 { grid-template-columns: 1fr; } }
+@media (max-width: 960px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: 1fr; }
+}
 
 /* Header */
 .site-header {
@@ -86,7 +92,10 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 .6rem; }
 .nav-toggle { display: none; flex-direction: column; gap: 4px; background: none; border: 0; }
 .nav-toggle-bar { width: 22px; height: 2px; background: var(--text); display: block; border-radius: 2px; }
 
-.theme-toggle { border: 1px solid var(--border); background: var(--bg); color: var(--text); border-radius: 999px; padding: .4rem .6rem; cursor: pointer; }
+.theme-toggle {
+  border: 1px solid var(--border); background: var(--bg); color: var(--text);
+  border-radius: 999px; padding: .4rem .6rem; cursor: pointer;
+}
 .theme-toggle:hover { background: var(--bg-alt); }
 
 @media (max-width: 800px) {
@@ -125,7 +134,12 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 .6rem; }
 .hero .lead { color: var(--muted); max-width: 60ch; }
 .hero-cta { display: flex; gap: .8rem; margin: 1.2rem 0 1.1rem; flex-wrap: wrap; }
 .badges { display: flex; gap: .5rem; list-style: none; padding: 0; margin: .4rem 0 1.2rem; flex-wrap: wrap; }
-.badge { font-size: .85rem; color: var(--brand); background: color-mix(in srgb, var(--brand) 16%, transparent); border: 1px dashed color-mix(in srgb, var(--brand) 40%, transparent); padding: .25rem .6rem; border-radius: 999px; }
+.badge {
+  font-size: .85rem; color: var(--brand);
+  background: color-mix(in srgb, var(--brand) 16%, transparent);
+  border: 1px dashed color-mix(in srgb, var(--brand) 40%, transparent);
+  padding: .25rem .6rem; border-radius: 999px;
+}
 
 .kpis { display: flex; gap: 1.6rem; margin-top: .8rem; }
 .kpi { display: grid; gap: .1rem; }
@@ -159,35 +173,26 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 .6rem; }
 .filters { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 1.4rem; }
 
 /* ============================
-   Timeline (alignment fixed)
-   IMPORTANT: ensure no other .timeline rules exist below this block
+   Timeline
    ============================ */
 .timeline {
   list-style: none;
   margin: 0;
-  padding-left: 56px; /* reserve space for line + dots */
+  padding-left: 58px; /* reserve space for line + dots */
   position: relative;
 }
 .timeline::before {
   content: "";
   position: absolute;
-  left: 28px;      /* vertical dotted line */
-  top: 0; bottom: 0;
+  left: 28px; top: 0; bottom: 0;
   border-left: 2px dotted var(--border);
 }
-.step {
-  position: relative;
-  padding: .6rem 0 1.1rem 0;
-}
-
-
+.step { position: relative; padding: .6rem 0 1.1rem 0; }
 .step-dot {
   position: absolute;
   left: calc(var(--tl-line-x) - ((var(--dot-size) + 2*var(--dot-border)) / 2) - var(--tl-pad));
-
-  top: .95rem;     /* sits next to the heading */
-  width: 16px; height: 16px;
-  border-radius: 50%;
+  top: .95rem;
+  width: 16px; height: 16px; border-radius: 50%;
   background: linear-gradient(135deg, var(--brand), var(--brand-2));
   border: 2px solid var(--brand);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 20%, transparent);
@@ -196,12 +201,18 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 .6rem; }
 .step-body p { margin: 0; color: var(--muted); }
 
 /* FAQ */
-.faq-item { border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); padding: .9rem 1.1rem; margin-bottom: .7rem; }
+.faq-item {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--card); padding: .9rem 1.1rem; margin-bottom: .7rem;
+}
 .faq-item summary { cursor: pointer; font-weight: 600; }
 .faq-item p { color: var(--muted); margin-top: .5rem; }
 
 /* Contact */
-.contact-form { display: grid; gap: .8rem; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem; box-shadow: var(--shadow); }
+.contact-form {
+  display: grid; gap: .8rem; background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.1rem; box-shadow: var(--shadow);
+}
 .contact-form label { display: grid; gap: .35rem; }
 .contact-form input, .contact-form textarea {
   background: var(--bg); color: var(--text); border: 1px solid var(--border);
@@ -222,7 +233,10 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 .6rem; }
 .footer-nav a:hover { color: var(--text); }
 
 /* Utilities */
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;
+}
 .to-top {
   position: fixed; right: 1rem; bottom: 1rem; border-radius: 999px; border: 1px solid var(--border);
   background: var(--bg-alt); color: var(--text); width: 40px; height: 40px; display: grid; place-items: center;
@@ -232,7 +246,10 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 .6rem; }
 
 /* Reveal on scroll */
 .in-view { animation: float-in .6s cubic-bezier(.2,.65,.3,1) both; }
-@keyframes float-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes float-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
 /* Background decorative orbs */
 .bg-orb {
@@ -241,20 +258,84 @@ h1, h2, h3 { line-height: 1.2; margin: 0 0 .6rem; }
   background: radial-gradient(circle at 30% 30%, var(--brand), transparent 60%);
 }
 .orb-1 { top: -160px; left: -120px; }
-.orb-2 { bottom: -160px; right: -120px; background: radial-gradient(circle at 70% 70%, var(--brand-2), transparent 60%); }
+.orb-2 {
+  bottom: -160px; right: -120px;
+  background: radial-gradient(circle at 70% 70%, var(--brand-2), transparent 60%);
+}
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
 
-.logo { display:block; height:28px; width:auto; }
-
-/* Show dark logo by default, swap when light theme is active */
+/* Logo swap for themes */
+.logo { display:block; height:28px; width:auto; color: unset; }
 .logo-light { display:none; }
 html[data-theme="light"] .logo-dark { display:none; }
 html[data-theme="light"] .logo-light { display:block; }
 
-/* Remove SVG-only color rule if you had it */
-.logo { color: unset; }
+/* =======================================================================
+   Principles carousel
+   - Edge fade via CSS mask (no painted bg), so it blends with section bg
+   - No scale on active card (prevents text blur)
+   ======================================================================= */
+
+.p-wrap { position: relative; margin-top: .6rem; }
+.p-view {
+  overflow: hidden;
+  padding: .4rem 0 1rem;
+  /* Edge fade via mask */
+  --p-fade: 64px;
+  -webkit-mask-image: linear-gradient(to right,
+    transparent 0,
+    #000 var(--p-fade),
+    #000 calc(100% - var(--p-fade)),
+    transparent 100%);
+          mask-image: linear-gradient(to right,
+    transparent 0,
+    #000 var(--p-fade),
+    #000 calc(100% - var(--p-fade)),
+    transparent 100%);
+}
+.p-track {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; align-items: stretch; gap: 1.2rem;
+  /* Let the browser decide compositing; forcing transform can blur text */
+  will-change: auto;
+}
+.p-slide { flex: 0 0 auto; }
+.p-card {
+  width: clamp(260px, 58vw, 520px);
+  transform: none;
+  opacity: .9;
+  transition: opacity .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+@media (min-width: 960px) {
+  .p-card { width: clamp(360px, 36vw, 520px); }
+}
+.p-card.is-active {
+  transform: none; /* no scale => crisp text */
+  opacity: 1;
+  border-color: color-mix(in srgb, var(--brand) 32%, var(--border));
+  box-shadow: 0 10px 28px rgba(59,130,246,.14);
+}
+
+/* Carousel arrows */
+.p-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 42px; height: 42px; border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg-alt) 80%, transparent);
+  backdrop-filter: blur(4px);
+  color: var(--text);
+  box-shadow: var(--shadow); display: grid; place-items: center; cursor: pointer; z-index: 2;
+}
+.p-nav:hover { background: color-mix(in srgb, var(--bg) 80%, transparent); }
+.p-nav:disabled { opacity: .4; cursor: default; }
+.p-nav.prev { left: .2rem; }
+.p-nav.next { right: .2rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .p-card { transition: none; }
+}
 

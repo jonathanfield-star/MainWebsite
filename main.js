@@ -230,3 +230,116 @@ document.addEventListener("click", async (e) => {
   // Doc title
   document.title = `${cs.title} — Case Study`;
 })();
+// ===== Principles carousel (circular with highlighted center) =====
+(function initPrinciplesCarousel(){
+  const view = document.getElementById('principles-view');
+  const track = document.getElementById('principles-track');
+  const prev = document.getElementById('p-prev');
+  const next = document.getElementById('p-next');
+  if (!view || !track) return;
+
+  // Build slides + clones for circular effect
+  const originals = Array.from(track.children);
+  const N = originals.length;
+  const CLONES = Math.min(2, N); // clone 2 at each end (or fewer if small set)
+
+  function cloneEnds() {
+    const first = originals.slice(0, CLONES).map(li => li.cloneNode(true));
+    const last  = originals.slice(-CLONES).map(li => li.cloneNode(true));
+    last.forEach(li => track.insertBefore(li, track.firstChild));
+    first.forEach(li => track.appendChild(li));
+  }
+  cloneEnds();
+
+  // Working list of ALL slides (with clones)
+  let slides = Array.from(track.children);
+
+  // Accessibility labels
+  slides.forEach((li, idx) => {
+    const slide = li.querySelector('.p-card');
+    if (slide) {
+      slide.setAttribute('role', 'group');
+      slide.setAttribute('aria-roledescription', 'slide');
+      slide.setAttribute('aria-label', `${((idx - CLONES + N) % N) + 1} of ${N}`);
+    }
+  });
+
+  // Helpers
+  const gapPx = () => parseFloat(getComputedStyle(track).gap || "16");
+  const cardWidth = () => {
+    const el = track.querySelector('.p-card');
+    return el ? el.getBoundingClientRect().width : 380;
+  };
+  const step = () => cardWidth() + gapPx();
+
+  // Center slide i (index within ALL slides)
+  function centerOn(i, smooth = true) {
+    const target = slides[i];
+    if (!target) return;
+    const left = target.offsetLeft - (view.clientWidth - target.clientWidth) / 2;
+    view.scrollTo({ left, behavior: smooth ? 'smooth' : 'auto' });
+    markActiveByCenterSoon();
+    currentIndex = i;
+  }
+
+  // Find the slide nearest the viewport center and mark it active
+  function markActiveByCenter() {
+    const mid = view.scrollLeft + view.clientWidth / 2;
+    let bestIdx = 0, bestDist = Infinity;
+    slides.forEach((li, idx) => {
+      const rect = li.getBoundingClientRect();
+      const left = rect.left + window.scrollX - view.offsetLeft; // align with scroll space
+      const center = (li.offsetLeft + li.clientWidth / 2);
+      const dist = Math.abs(center - (view.scrollLeft + view.clientWidth / 2));
+      if (dist < bestDist) { bestDist = dist; bestIdx = idx; }
+    });
+    slides.forEach(li => li.querySelector('.p-card')?.classList.remove('is-active'));
+    slides[bestIdx]?.querySelector('.p-card')?.classList.add('is-active');
+    return bestIdx;
+  }
+  const markActiveByCenterSoon = () => setTimeout(markActiveByCenter, 80);
+
+  // After smooth scroll finishes, snap-correct if we are on a clone (loop)
+  function handleLoop() {
+    const activeIdx = markActiveByCenter();
+    const i0 = CLONES;
+    const iN = CLONES + N - 1;
+
+    if (activeIdx < i0) {
+      // jumped into left clones → map to real slide at end
+      const mapped = activeIdx + N;
+      centerOn(mapped, false);
+    } else if (activeIdx > iN) {
+      // jumped into right clones → map to real slide at start
+      const mapped = activeIdx - N;
+      centerOn(mapped, false);
+    }
+  }
+
+  // Arrow controls
+  let currentIndex = CLONES; // start on first real slide
+  function move(dir) {
+    const nextIdx = currentIndex + dir;
+    centerOn(nextIdx, true);
+  }
+  prev?.addEventListener('click', () => move(-1));
+  next?.addEventListener('click', () => move(1));
+
+  // Keyboard
+  view.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); move(-1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); move(1); }
+  });
+
+  // Update on scroll/resize
+  view.addEventListener('scroll', () => {
+    markActiveByCenterSoon();
+    // use a lightweight loop check after smooth scrolling settles
+    window.clearTimeout(view._loopT);
+    view._loopT = setTimeout(handleLoop, 160);
+  });
+  window.addEventListener('resize', () => centerOn(markActiveByCenter(), false));
+
+  // Initial position: highlight the first principle (“Open & democratized”)
+  centerOn(currentIndex, false);
+})();
