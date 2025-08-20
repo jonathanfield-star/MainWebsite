@@ -445,3 +445,21 @@ section[id] { scroll-margin-top: 72px; }
 
 /* Prevent rogue horizontal scrolling in the hero on iOS (fixed layers/orbs) */
 #hero { overflow-x: clip; }
+/* --- Hero code card: prevent overflow on mobile --- */
+.grid-2 > * { min-width: 0; }          /* allow grid children to shrink */
+.hero-copy, .hero-panel { min-width: 0; }
+
+.hero-panel .code-card { max-width: 100%; }
+.hero-panel .code-card pre {
+  max-width: 100%;
+  overflow-x: auto;                     /* allow horizontal scroll if needed */
+  white-space: pre;                     /* keep code formatting by default */
+}
+
+/* On narrow screens, wrap long lines so the card can “squeeze” neatly */
+@media (max-width: 560px) {
+  .hero-panel .code-card pre {
+    white-space: pre-wrap;              /* allow wrapping */
+    word-break: break-word;             /* break very long tokens if required */
+  }
+}
