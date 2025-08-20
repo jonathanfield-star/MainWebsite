@@ -140,83 +140,142 @@
     "order": ["uk-grid", "battery-sizing", "capacity-expansion", "microgrid", "curtailment", "ev-charging"],
     "items": {
     "uk-grid": {
-  "title": "GB Dispatch & Stack Modelling (PyPSA)",
-  "subtitle": "Built for a private client to support siting and operating decisions via transparent dispatch and stack views.",
-  "tags": ["Grid","Operations","PyPSA"],
-  "kpis": [
-    {"num":"< 3 min","txt":"solve per weekly run"},
-    {"num":"Stack","txt":"merit-order & price-duration"},
-    {"num":"Zonal","txt":"dispatch & simple flows"}
-  ],
-  "summary": "A private market participant asked for a clear, defensible view of how the broader GB system dispatches through the year and where their candidate assets sit in the merit order. We built a tractable PyPSA dispatch with zonal DC flow, stack modelling, and simple unit limits so they could see optimal dispatch, curtailment exposure, and expected running hours by scenario—without black-box magic.",
-  "gallery": [
-    { "src": "assets/1/1.jpg",   "alt": "Merit-order stack by assets",            "caption": "Simple demonstrative asset stack" },
-    { "src": "assets/1/2.jpg",   "alt": "Zonal dispatch and flows",             "caption": "Simple demonstrative stack by region (simplified regions)" },
-    { "src": "assets/1/3.jpg",              "alt": "Price-duration curve",                 "caption": "Simple demonstrative nodal map (6 regions)" }
+          "title": "GB Dispatch & Stack Modelling (PyPSA)",
+          "subtitle": "Built for a private client to support siting and operating decisions via transparent dispatch and stack views.",
+          "tags": ["Grid","Operations","PyPSA"],
+          "kpis": [
+            {"num":"< 3 min","txt":"solve per weekly run"},
+            {"num":"Stack","txt":"merit-order & price-duration"},
+            {"num":"Zonal","txt":"dispatch & simple flows"}
+          ],
+          "summary": "A private market participant asked for a clear, defensible view of how the broader GB system dispatches through the year and where their candidate assets sit in the merit order. We built a tractable PyPSA dispatch with zonal DC flow, stack modelling, and simple unit limits so they could see optimal dispatch, curtailment exposure, and expected running hours by scenario—without black-box magic.",
+          "gallery": [
+            { "src": "assets/1/1.jpg",   "alt": "Merit-order stack by assets",            "caption": "Simple demonstrative asset stack" },
+            { "src": "assets/1/2.jpg",   "alt": "Zonal dispatch and flows",             "caption": "Simple demonstrative stack by region (simplified regions)" },
+            { "src": "assets/1/3.jpg",              "alt": "Price-duration curve",                 "caption": "Simple demonstrative nodal map (6 regions)" }
 
-  ],
-  "sections": [
-    [
-      "Client context & ask",
-      "A privately held developer/owner wanted a practical view of GB system behaviour to support siting and commercial decisions. The focus: where their assets land in the stack, expected running hours, and sensitivity to network constraints."
-    ],
-    [
-      "Problem",
-      "Estimate optimal dispatch of generation assets and the client’s stack position under realistic price/load conditions, with enough grid context to catch obvious constraints—while keeping the model transparent and quick to iterate."
-    ],
-    [
-      "Approach",
-      "PyPSA operational dispatch with a zonal DC approximation, generator cost curves, simple unit limits (min output, ramps, starts where relevant), and storage as a flexible unit. Outputs include dispatch, merit-order stacks, price-duration curves, and basic flow indicators."
-    ],
-    [
-      "Data",
-      "Public load/generation/topology datasets plus client assumptions for candidate sites, fuel/variable costs, and availability. ETL in Pandas; all assumptions logged and versioned."
-    ],
-    [
-      "Model & methods",
-      "• Decision variables: unit outputs, storage charge/discharge, zonal balance.\n• Objective: minimise operating cost (variable cost + start costs if used).\n• Constraints: zonal balance, line transfer limits (simplified), unit bounds/ramps, storage SoC.\n• Stack modelling: sort units by marginal cost each hour to produce merit-order and highlight the client asset."
-    ],
-    [
-      "Scenarios",
-      "Representative weeks across seasons plus a full-year roll-up: fuel price sensitivities, RES availability bands, and simple reinforcement on/off toggles. Each weekly run solves in under three minutes on a laptop."
-    ],
-    [
-      "Results (for decisions)",
-      "Clear view of when/where the client’s assets dispatch, expected running hours and starts, sensitivity to spreads, and whether certain zones consistently pinch due to transfer limits. This supported shortlisting and hedging discussions."
-    ],
-    [
-      "Validation",
-      "Back-checks against public price/stack proxies for sample weeks, sanity checks on flows and curtailment, and peer review of cost/availability inputs."
-    ],
-    [
-      "Deliverables",
-      "Runnable PyPSA repo with scenarios, CSV/Parquet outputs, and lightweight notebooks: stack plots, price-duration curves, and asset dispatch summaries the team can rerun in-house."
-    ],
-    [
-      "Limits & next steps",
-      "Zonal DC ignores voltage/reactive effects and detailed unit commitment. Suggested extensions: finer spatial split for shortlisted zones, more complete UC for thermal assets, and targeted AC checks where needed."
-    ]
-  ]
-}
+          ],
+          "sections": [
+            [
+              "Client context & ask",
+              "A privately held developer/owner wanted a practical view of GB system behaviour to support siting and commercial decisions. The focus: where their assets land in the stack, expected running hours, and sensitivity to network constraints."
+            ],
+            [
+              "Problem",
+              "Estimate optimal dispatch of generation assets and the client’s stack position under realistic price/load conditions, with enough grid context to catch obvious constraints—while keeping the model transparent and quick to iterate."
+            ],
+            [
+              "Approach",
+              "PyPSA operational dispatch with a zonal DC approximation, generator cost curves, simple unit limits (min output, ramps, starts where relevant), and storage as a flexible unit. Outputs include dispatch, merit-order stacks, price-duration curves, and basic flow indicators."
+            ],
+            [
+              "Data",
+              "Public load/generation/topology datasets plus client assumptions for candidate sites, fuel/variable costs, and availability. ETL in Pandas; all assumptions logged and versioned."
+            ],
+            [
+              "Model & methods",
+              "• Decision variables: unit outputs, storage charge/discharge, zonal balance.\n• Objective: minimise operating cost (variable cost + start costs if used).\n• Constraints: zonal balance, line transfer limits (simplified), unit bounds/ramps, storage SoC.\n• Stack modelling: sort units by marginal cost each hour to produce merit-order and highlight the client asset."
+            ],
+            [
+              "Scenarios",
+              "Representative weeks across seasons plus a full-year roll-up: fuel price sensitivities, RES availability bands, and simple reinforcement on/off toggles. Each weekly run solves in under three minutes on a laptop."
+            ],
+            [
+              "Results (for decisions)",
+              "Clear view of when/where the client’s assets dispatch, expected running hours and starts, sensitivity to spreads, and whether certain zones consistently pinch due to transfer limits. This supported shortlisting and hedging discussions."
+            ],
+            [
+              "Validation",
+              "Back-checks against public price/stack proxies for sample weeks, sanity checks on flows and curtailment, and peer review of cost/availability inputs."
+            ],
+            [
+              "Deliverables",
+              "Runnable PyPSA repo with scenarios, CSV/Parquet outputs, and lightweight notebooks: stack plots, price-duration curves, and asset dispatch summaries the team can rerun in-house."
+            ],
+            [
+              "Limits & next steps",
+              "Zonal DC ignores voltage/reactive effects and detailed unit commitment. Suggested extensions: finer spatial split for shortlisted zones, more complete UC for thermal assets, and targeted AC checks where needed."
+            ]
+          ]
+        }
 ,
       "battery-sizing": {
-        "title": "Battery Sizing Optimizer (Pyomo)",
-        "subtitle": "Co-optimises power/energy with degradation and losses; NPV-driven sizing.",
-        "tags": ["Storage","Planning","Pyomo"],
-        "kpis": [
-          {"num":"IRR +3–7%","txt":"vs. naive sizing"},
-          {"num":"Degradation","txt":"cycle calendar mix"},
-          {"num":"NPV","txt":"incl. capex/opex"}
-        ],
-        "summary": "MILP sizing of BESS power (MW) and energy (MWh) with efficiency, aging, and revenue stacking (arbitrage + services).",
-        "code": "maximize NPV(build_power, build_energy) subject to SoC dynamics, degradation, and market revenues",
-        "sections": [
-          ["Problem","Choose cost-optimal BESS power/energy considering degradation and market strategy."],
-          ["Approach","Pyomo MILP with linearized degradation and service eligibility constraints; sensitivity over prices and capex."],
-          ["Results","Pareto of MW/MWh trade-offs; optimal ratios 0.7–1.2 hours in sample cases; IRR uplift vs fixed ratios."],
-          ["Deliverables","Parameterised model, CSV reports, and a simple web UI (optional)."]
-        ]
-      },
+          "title": "Wind Co-location: Battery Sizing for NPV (Pyomo)",
+          "subtitle": "Right-sized MW/MWh to capture excess wind and resell to grid, with losses and degradation.",
+          "tags": ["Storage","Planning","Pyomo"],
+          "kpis": [
+            {"num":"IRR +3–7%","txt":"vs. fixed-ratio sizing"},
+            {"num":"~0.8–1.4 h","txt":"optimal E/P in tests"},
+            {"num":"< 2 min","txt":"solve per weekly run"}
+          ],
+          "summary": "A private wind developer asked us to size a co-located battery to maximise NPV by storing excess wind (curtailment/clipping) and reselling to the grid. We built a transparent Pyomo MILP that chooses power (MW) and energy (MWh), respecting connection limits, round-trip losses, and cell aging. The model weighs capex/opex against stacked revenues (onsite spill capture + arbitrage; optional services where eligible) and returns a size with clear economics, sensitivities, and what-ifs they can rerun in-house.",
+          "gallery": [
+            { "src": "assets/2/1.png", "alt": "Curtailment capture with BESS", "caption": "How the BESS absorbs onsite excess wind and shifts it into higher-value periods." },
+            { "src": "assets/2/2.png",       "alt": "Pareto of MW/MWh trade-offs",  "caption": "NPV surface across power and energy; dot marks chosen size." },
+            { "src": "assets/2/1.jpg",    "alt": "Price-duration & dispatch",   "caption": "Charge/discharge overlay on the price-duration curve (representative week)." }
+
+          ],
+          "code": "maximize NPV(build_P_MW, build_E_MWh)\nsubject to SoC dynamics, connection headroom, efficiency losses, and degradation costs",
+          "sections": [
+            [
+              "Client context & ask",
+              "A private wind developer wanted to add BESS at an existing site to monetise spill and time-shift output. They needed a defendable MW/MWh size that maximises NPV under realistic prices, losses, and aging—without black-box assumptions."
+            ],
+            [
+              "Problem",
+              "Select the power and energy rating that best converts excess wind into revenue, subject to grid connection limits, co-location rules, round-trip efficiency, and battery degradation—while keeping capex in check."
+            ],
+            [
+              "Approach (Pyomo MILP)",
+              "We formulated a tractable MILP that endogenously chooses build_P (MW) and build_E (MWh). The model co-optimises hourly charge/discharge to capture onsite excess and arbitrage into higher-value hours. Losses and simple unit limits are included; optional service revenues can be toggled by eligibility flags."
+            ],
+            [
+              "Data",
+              "• Site wind output (SCADA or high-res profiles), resampled to hourly with seasonal patterns.\n• Price series (DA/ID proxies), charges/fees and simple losses.\n• Capex/opex curves for power and energy, replacement/refurb options.\n• Connection export/import limits and co-location rules."
+            ],
+            [
+              "Model & methods",
+              "• Vars: build_P, build_E, charge_t, discharge_t, SoC_t.\n• Objective: maximise discounted cash flows = revenues − costs (capex, fixed/var opex, degradation cost if monetised).\n• Constraints: SoC dynamics with efficiency; 0 ≤ charge/discharge ≤ build_P; 0 ≤ SoC ≤ build_E; export/import limited by connection headroom and wind availability; mutual exclusivity handled via standard linearisation if needed."
+            ],
+            [
+              "Revenue model",
+              "• Onsite spill capture: store otherwise-curtailed/clipped wind and resell later.\n• Energy arbitrage: shift to higher-price hours; price-duration guidance included.\n• Optional services: add eligibility toggles and capacity limits (kept off by default unless the client can participate)."
+            ],
+            [
+              "Degradation & lifetime",
+              "Cycle + calendar fade approximated via linear segments; throughput-based degradation cost can be monetised in the objective or shown as residual capacity trajectories. Lifetime economics consider replacement/refurb at trigger thresholds."
+            ],
+            [
+              "Connection & co-location",
+              "Export caps bind when wind + discharge approach the connection limit; import caps bound charging. Rules to prevent the battery from exporting more than site headroom (unless explicitly allowed) are enforced."
+            ],
+            [
+              "Scenarios",
+              "Seasonal representative weeks plus a full-year roll-up; fuel/price sensitivities, wind variability bands, capex learning curves, and connection reinforcement toggles. Each weekly run solves in under two minutes on a laptop."
+            ],
+            [
+              "Results (for decisions)",
+              "NPV surface across MW and MWh highlights diminishing returns; recommended E/P sits around ~0.8–1.4 h in base cases. Co-location captures a meaningful share of spill and improves running economics versus a fixed-ratio battery."
+            ],
+            [
+              "Sensitivities & what-ifs",
+              "• Price volatility ↑/↓\n• Wind profile P50/P90\n• Round-trip efficiency and auxiliary loads\n• Capex/opex, discount rate\n• Replacement strategy (mid-life augment vs. run-to-end)"
+            ],
+            [
+              "Validation",
+              "Back-checks vs. historical weeks, reasonableness tests on energy balance and clipping capture, peer review of cost and efficiency assumptions. All runs are logged with parameters for reproducibility."
+            ],
+            [
+              "Deliverables",
+              "Clean Pyomo repo (tests/CI), parameter sheets, scenario configs, CSV/Parquet outputs, and lightweight notebooks: NPV surface, Pareto front, price-duration with dispatch overlay, and degradation trajectories."
+            ],
+            [
+              "Limits & next steps",
+              "MILP uses simplified unit commitment and grid fees; consider fuller market participation logic, more granular losses/charges, and inter-year augmentation planning once a shortlist is agreed."
+            ]
+          ]
+        }
+,
       "capacity-expansion": {
         "title": "Capacity Expansion (CE)",
         "subtitle": "Long-run least-cost build plan with policy constraints.",
