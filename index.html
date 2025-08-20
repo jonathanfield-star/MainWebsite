@@ -132,17 +132,23 @@
         </div>
 
         <div class="hero-panel">
-          <div class="glass card code-card" aria-label="Demo objective function snippet">
-<pre><code>// objective: min total system cost
-min Σ (capex_g * build_g + capex_s * build_s
-     + opex_g * gen_g_t + opex_s * charge_s_t)
-subject to:
-  demand_t = Σ gen_g_t + discharge_s_t - curtail_t
-  gen_g_t ≤ avail_g_t · cap_g
-  power_flow ≤ thermal_limits
+         <div class="glass card code-card" aria-label="Demo objective function snippet">
+<pre><code>=== Arbitrage + Ancillary Reserve (January 2025)
+Battery Pmax (nameplate):    50.00 MW
+Chosen reserve (fixed R):    34.02 MW
+Usable for arbitrage:        15.98 MW
+Reserve rate:                €7.00 per MW per hour
+Reserve revenue:             €177,192.58
+---- Arbitrage component ----------------------------
+Imported energy:             2,902 MWh @ 50.11 €/MWh
+Exported energy:             2,581 MWh @ 82.75 €/MWh
+Import cost:                 €145,456.06
+Export revenue:              €213,615.97
+-----------------------------------------------------
+TOTAL PROFIT:                €245,352.49
 </code></pre>
             <div class="card-footer">
-              <button class="btn btn-ghost small" data-copy="#copy-text">Copy snippet</button>
+              <a class="btn small" href="case-study.html?slug=microgrid">Learn more</a>
               <span id="copy-text" class="sr-only">
 minimize(total_cost) subject to balance, capacity, and network constraints
               </span>
