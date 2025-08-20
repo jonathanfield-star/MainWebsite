@@ -139,27 +139,67 @@
   {
     "order": ["uk-grid", "battery-sizing", "capacity-expansion", "microgrid", "curtailment", "ev-charging"],
     "items": {
-      "uk-grid": {
-        "title": "UK Power System Dispatch (PyPSA)",
-        "subtitle": "National-scale DC load-flow with security-constrained dispatch, RES curtailment and LMPs.",
-        "tags": ["Grid","Planning","PyPSA"],
-        "kpis": [
-          {"num":"~1.2M","txt":"variables across 8760h"},
-          {"num":"< 4 min","txt":"solve time (annual)"},
-          {"num":"LMPs","txt":"per bus & time-step"}
-        ],
-        "summary": "Operational model of the GB grid with zonal/bus-level resolution, DC power flow, security constraints (N-1 optional), and congestion-induced redispatch.",
-        "code": "// objective: minimize total system cost with congestion pricing\nmin Σ(capex + opex + penalty_curtailment)\nsubject to: balance, capacity, DC flow limits, reserve margins",
-        "sections": [
-          ["Problem","Quantify congestion impacts and curtailment drivers under high-RES scenarios while producing interpretable LMPs."],
-          ["Approach","PyPSA-based DCOPF with generator and storage units, piecewise-linear costs, optional reserve and N-1 approximations. Scenario runner for weather & load years."],
-          ["Data","ENTSO-E load, NG ESO TEC for generators, OpenStreetMap lines; synthetic parameters where required. Automated ETL with Pandas."],
-          ["Model & Methods","Buses, lines with susceptance, generators, storage. Constraints: nodal balance, thermal limits, ramping, SoC dynamics. Results emitter for LMPs, flows, curtailment."],
-          ["Results","Heatmaps of curtailment by region, binding lines, and LMP spreads. Storage provides redispatch and reduces RES spill by 21–34% in tested scenarios."],
-          ["Validation","Back-test on historical week/month samples; compare price spreads vs. published LMP proxies; line loading sanity checks."],
-          ["Deliverables","Notebooks, PyPSA model, CSV outputs, optional Plotly dashboard."]
-        ]
-      },
+    "uk-grid": {
+  "title": "GB Dispatch & Stack Modelling (PyPSA)",
+  "subtitle": "Built for a private client to support siting and operating decisions via transparent dispatch and stack views.",
+  "tags": ["Grid","Operations","PyPSA"],
+  "kpis": [
+    {"num":"< 3 min","txt":"solve per weekly run"},
+    {"num":"Stack","txt":"merit-order & price-duration"},
+    {"num":"Zonal","txt":"dispatch & simple flows"}
+  ],
+  "summary": "A private market participant asked for a clear, defensible view of how the broader GB system dispatches through the year and where their candidate assets sit in the merit order. We built a tractable PyPSA dispatch with zonal DC flow, stack modelling, and simple unit limits so they could see optimal dispatch, curtailment exposure, and expected running hours by scenario—without black-box magic.",
+  "gallery": [
+    { "src": "assets/case/uk-stack-overview.png",   "alt": "Merit-order stack by hour",            "caption": "Hourly merit-order stack with the client’s asset highlighted." },
+    { "src": "assets/case/uk-dispatch-areas.png",   "alt": "Zonal dispatch and flows",             "caption": "Zonal generation mix with indicative transfers between areas." },
+    { "src": "assets/case/uk-pdc.png",              "alt": "Price-duration curve",                 "caption": "Price-duration curve and implied running hours at candidate sites." },
+    { "src": "assets/case/uk-curtailment-bars.png", "alt": "Curtailment bars by zone",             "caption": "Where and when curtailment shows up across scenarios." },
+    { "src": "assets/case/uk-asset-dispatch.png",   "alt": "Client asset dispatch profile",        "caption": "Optimal dispatch profile and starts for a representative week." }
+  ],
+  "sections": [
+    [
+      "Client context & ask",
+      "A privately held developer/owner wanted a practical view of GB system behaviour to support siting and commercial decisions. The focus: where their assets land in the stack, expected running hours, and sensitivity to network constraints."
+    ],
+    [
+      "Problem",
+      "Estimate optimal dispatch of generation assets and the client’s stack position under realistic price/load conditions, with enough grid context to catch obvious constraints—while keeping the model transparent and quick to iterate."
+    ],
+    [
+      "Approach",
+      "PyPSA operational dispatch with a zonal DC approximation, generator cost curves, simple unit limits (min output, ramps, starts where relevant), and storage as a flexible unit. Outputs include dispatch, merit-order stacks, price-duration curves, and basic flow indicators."
+    ],
+    [
+      "Data",
+      "Public load/generation/topology datasets plus client assumptions for candidate sites, fuel/variable costs, and availability. ETL in Pandas; all assumptions logged and versioned."
+    ],
+    [
+      "Model & methods",
+      "• Decision variables: unit outputs, storage charge/discharge, zonal balance.\n• Objective: minimise operating cost (variable cost + start costs if used).\n• Constraints: zonal balance, line transfer limits (simplified), unit bounds/ramps, storage SoC.\n• Stack modelling: sort units by marginal cost each hour to produce merit-order and highlight the client asset."
+    ],
+    [
+      "Scenarios",
+      "Representative weeks across seasons plus a full-year roll-up: fuel price sensitivities, RES availability bands, and simple reinforcement on/off toggles. Each weekly run solves in under three minutes on a laptop."
+    ],
+    [
+      "Results (for decisions)",
+      "Clear view of when/where the client’s assets dispatch, expected running hours and starts, sensitivity to spreads, and whether certain zones consistently pinch due to transfer limits. This supported shortlisting and hedging discussions."
+    ],
+    [
+      "Validation",
+      "Back-checks against public price/stack proxies for sample weeks, sanity checks on flows and curtailment, and peer review of cost/availability inputs."
+    ],
+    [
+      "Deliverables",
+      "Runnable PyPSA repo with scenarios, CSV/Parquet outputs, and lightweight notebooks: stack plots, price-duration curves, and asset dispatch summaries the team can rerun in-house."
+    ],
+    [
+      "Limits & next steps",
+      "Zonal DC ignores voltage/reactive effects and detailed unit commitment. Suggested extensions: finer spatial split for shortlisted zones, more complete UC for thermal assets, and targeted AC checks where needed."
+    ]
+  ]
+}
+,
       "battery-sizing": {
         "title": "Battery Sizing Optimizer (Pyomo)",
         "subtitle": "Co-optimises power/energy with degradation and losses; NPV-driven sizing.",
