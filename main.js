@@ -171,32 +171,94 @@ document.addEventListener("click", async (e) => {
   }
 
   // Summary block (left) + code/figure (right)
-  const summaryEl = document.getElementById("case-summary");
-  if (summaryEl) {
-    summaryEl.innerHTML = `
-      <div>
-        <div class="card">
-          <div class="card-body">
-            <h3 class="card-title">Summary</h3>
-            <p class="card-text">${cs.summary || ""}</p>
-          </div>
-          <div class="card-actions">
-            <a class="btn" href="index.html#contact">Work with us</a>
-            <a class="btn btn-ghost" href="projects.html">Back to Projects</a>
-          </div>
+  // Summary (left) + Gallery (right)
+const summaryEl = document.getElementById("case-summary");
+if (summaryEl) {
+  const gallery = Array.isArray(cs.gallery) ? cs.gallery : [];
+
+  const thumbs = gallery.slice(0, 4).map((img, i) => `
+    <button class="gallery-item" data-index="${i}" aria-label="Open image ${i+1}${img.caption ? `: ${img.caption}` : ''}">
+      <img loading="lazy" src="${img.src}" alt="${img.alt || img.caption || ''}">
+      ${i === 3 && gallery.length > 4 ? `<div class="more-badge">+${gallery.length - 4}</div>` : ``}
+    </button>
+  `).join("");
+
+  summaryEl.innerHTML = `
+    <div>
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title">Summary</h3>
+          <p class="card-text">${cs.summary || ""}</p>
+        </div>
+        <div class="card-actions">
+          <a class="btn" href="index.html#contact">Work with us</a>
+          <a class="btn btn-ghost" href="projects.html">Back to Projects</a>
         </div>
       </div>
-      <div>
-        <div class="glass card code-card">
-          <pre><code>${(cs.code || "").replace(/</g,"&lt;")}</code></pre>
-          <div class="card-footer">
-            <button class="btn btn-ghost small" data-copy="#copy-text">Copy snippet</button>
-            <span id="copy-text" class="sr-only">${(cs.code || "")}</span>
-          </div>
-        </div>
-      </div>
-    `;
+    </div>
+    <div>
+      ${
+        gallery.length
+          ? `<div id="case-gallery" class="gallery-grid" role="list">${thumbs}</div>`
+          : `<div class="card"><div class="card-body"><p class="card-text">Add a <code>gallery</code> array for this case to show images.</p></div></div>`
+      }
+    </div>
+  `;
+
+  // Lightbox wiring (only if images exist)
+  if (gallery.length) {
+    const lightbox = document.getElementById("lightbox");
+    const lbImg = document.getElementById("lb-img");
+    const lbCap = document.getElementById("lb-cap");
+    const lbPrev = document.querySelector(".lb-prev");
+    const lbNext = document.querySelector(".lb-next");
+    const lbClose = document.querySelector(".lb-close");
+
+    let idx = 0;
+
+    function openLightbox(i = 0) {
+      idx = ((i % gallery.length) + gallery.length) % gallery.length;
+      updateLightbox();
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      lightbox.focus();
+    }
+    function closeLightbox() {
+      lightbox.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+    function updateLightbox() {
+      const g = gallery[idx];
+      lbImg.src = g.src;
+      lbImg.alt = g.alt || g.caption || "";
+      lbCap.textContent = g.caption || "";
+    }
+    function step(n) {
+      idx = (idx + n + gallery.length) % gallery.length;
+      updateLightbox();
+    }
+
+    document.getElementById("case-gallery")?.addEventListener("click", (e) => {
+      const btn = e.target.closest(".gallery-item");
+      if (!btn) return;
+      openLightbox(Number(btn.dataset.index) || 0);
+    });
+
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    lbClose?.addEventListener("click", closeLightbox);
+    lbPrev?.addEventListener("click", () => step(-1));
+    lbNext?.addEventListener("click", () => step(1));
+
+    document.addEventListener("keydown", (e) => {
+      if (lightbox.getAttribute("aria-hidden") === "true") return;
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") step(-1);
+      if (e.key === "ArrowRight") step(1);
+    });
   }
+}
 
   // Sections
   const sectionsEl = document.getElementById("case-sections")?.querySelector(".container");

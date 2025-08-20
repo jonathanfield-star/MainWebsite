@@ -23,6 +23,17 @@
 <meta name="theme-color" content="#0b0f1a">
 
 </head>
+<!-- Lightweight lightbox (shared) -->
+<div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Image viewer" tabindex="-1">
+  <button class="lb-btn lb-close" aria-label="Close (Esc)">×</button>
+  <button class="lb-btn lb-prev" aria-label="Previous image">←</button>
+  <figure class="lb-figure">
+    <img id="lb-img" alt="" />
+    <figcaption id="lb-cap"></figcaption>
+  </figure>
+  <button class="lb-btn lb-next" aria-label="Next image">→</button>
+</div>
+
 <body>
   <div class="bg-orb orb-1" aria-hidden="true"></div>
   <div class="bg-orb orb-2" aria-hidden="true"></div>
@@ -189,6 +200,14 @@
     {"num":"12 MW/h","txt":"ramp limit"},
     {"num":"744 h","txt":"horizon"}
   ],
+          "gallery": [
+  { "src": "assets/logo.png",   "alt": "Battery import, export and SoC", "caption": "Hourly import, export, and SoC over January." },
+  { "src": "assets/case/microgrid-profit.png",     "alt": "Profit breakdown",              "caption": "Profit split: reserve vs arbitrage." },
+  { "src": "assets/case/microgrid-sensitivity.png","alt": "Reserve price sensitivity",      "caption": "Chosen R* across reserve price scenarios." },
+  { "src": "assets/case/microgrid-map.png",        "alt": "Topology map",                   "caption": "Sites and constraints (illustrative)." },
+  { "src": "assets/case/microgrid-ramps.png",      "alt": "Ramp constraints effect",        "caption": "Ramps reduce volatility while preserving profit." }
+],
+
   "summary": "We co-optimise a 50 MW / 200 MWh battery between energy arbitrage and a month-fixed ancillary service commitment. The model embeds a continuous reserve variable R inside the LP, applies a realistic buy/sell spread, daily-varying prices with noise/spikes, optional ramp limits, and an SoC floor for deliverability. Output includes the chosen reserve, arbitrage dispatch, and a transparent profit breakdown.",
   "code": "=== Arbitrage + Ancillary Reserve (single-shot LP; January 2025) ===\nBattery Pmax (nameplate):    50.00 MW   | max_hours = 4 h\nChosen reserve (fixed R):    34.02 MW\nUsable for arbitrage:        15.98 MW   | energy headroom ≤ 63.91 MWh\nReserve rate:                €7.00 per MW per hour\nReserve revenue:             €177,192.58\n---- Arbitrage component -------------------------------------\nImported energy:             2,902.56 MWh @ avg 50.11 €/MWh (buy spread applied)\nExported energy:             2,581.60 MWh @ avg 82.75 €/MWh (sell spread applied)\nImport cost:                 €145,456.06\nExport revenue:              €213,615.97\n---------------------------------------------------------------\nTOTAL PROFIT:                €245,352.49",
   "sections": [
