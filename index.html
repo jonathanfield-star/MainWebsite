@@ -483,27 +483,41 @@ minimize(total_cost) subject to balance, capacity, and network constraints
           <h2 class="h2">Let’s build your model</h2>
           <p class="section-sub">Quick intro call or send a brief. We’ll respond within one business day.</p>
           <ul class="contact-list">
-            <li>📧 <a href="mailto:hello@example.com">hello@example.com</a></li>
-            <li>🔗 <a href="#" aria-disabled="true">LinkedIn</a></li>
+            <li>📧 <a href="mailto:hello@ampereinsight.com">hello@ampereinsight.com</a></li>
+            <li>🔗 <a href="https://www.linkedin.com/company/ampere-insight/" aria-disabled="true">LinkedIn</a></li>
             <li>🐙 <a href="#" aria-disabled="true">GitHub</a></li>
           </ul>
         </div>
-        <form class="contact-form" action="mailto:hello@example.com" method="post" enctype="text/plain">
-          <label>
-            <span>Your name</span>
-            <input name="name" type="text" placeholder="Ada Lovelace" required />
-          </label>
-          <label>
-            <span>Email</span>
-            <input name="email" type="email" placeholder="you@domain.com" required />
-          </label>
-          <label>
-            <span>Message</span>
-            <textarea name="message" rows="5" placeholder="What would you like to model?" required></textarea>
-          </label>
-          <button class="btn" type="submit">Send</button>
-          <p class="form-note">Tip: replace the mailto with your form handler when you’re ready.</p>
-        </form>
+        <form id="contact-form"
+                  class="contact-form"
+                  action="https://formspree.io/f/mkgzlzad"
+                  method="POST" novalidate>
+              <label>
+                <span>Your name</span>
+                <input name="name" type="text" placeholder="Ada Lovelace" required autocomplete="name" />
+              </label>
+              <label>
+                <span>Email</span>
+                <input name="email" type="email" placeholder="you@domain.com" required autocomplete="email" />
+              </label>
+              <label>
+                <span>Message</span>
+                <textarea name="message" rows="5" placeholder="What would you like to model?" required></textarea>
+              </label>
+
+              <!-- Optional metadata -->
+              <input type="hidden" name="_subject" value="New enquiry from ampereinsight.co" />
+              <input type="hidden" name="page" value="index" />
+
+              <!-- Honeypot (basic spam trap) -->
+              <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+              <button class="btn" type="submit">Send</button>
+              <p class="form-note" id="form-status" role="status" aria-live="polite">
+                Tip: we’ll reply within one business day.
+              </p>
+            </form>
+
       </div>
     </section>
   </main>

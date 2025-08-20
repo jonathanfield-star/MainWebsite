@@ -343,3 +343,32 @@ document.addEventListener("click", async (e) => {
   // Initial position: highlight the first principle (“Open & democratized”)
   centerOn(currentIndex, false);
 })();
+// Contact form (Formspree AJAX)
+(function(){
+  const form = document.getElementById('contact-form');
+  if (!form) return;
+  const statusEl = document.getElementById('form-status');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    statusEl.textContent = 'Sending…';
+    try {
+      const resp = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (resp.ok) {
+        form.reset();
+        statusEl.textContent = 'Thanks — your message was sent.';
+      } else {
+        const data = await resp.json().catch(() => null);
+        statusEl.textContent = (data && data.errors && data.errors[0]?.message)
+          ? data.errors[0].message
+          : 'Something went wrong. Please email hello@example.com.';
+      }
+    } catch {
+      statusEl.textContent = 'Network error. Please email hello@example.com.';
+    }
+  });
+})();
