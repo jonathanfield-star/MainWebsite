@@ -277,17 +277,71 @@
         }
 ,
       "capacity-expansion": {
-        "title": "Capacity Expansion (CE)",
-        "subtitle": "Long-run least-cost build plan with policy constraints.",
-        "tags": ["Planning","Markets","Pyomo"],
-        "kpis": [{"num":">10 yrs","txt":"horizon"},{"num":"Policy","txt":"CfDs, caps"},{"num":"CO₂","txt":"carbon budget"}],
-        "summary": "Multi-year capacity expansion with endogenous retirements and policy handles (CfDs, cap-and-floor).",
-        "code": "minimize Σ_t (capex_build_t + opex_t + policy_costs_t) with energy balance and reserve adequacy",
-        "sections": [
-          ["Approach","Stage-wise CE with perfect foresight baseline; stochastic extension optional."],
-          ["Results","Build-out timing, resource mix, LCOE and emissions trajectories."]
-        ]
-      },
+              "title": "Capacity Expansion Planning",
+              "subtitle": "Private client roadmap for least-cost build/retire under policy and adequacy constraints.",
+              "tags": ["Planning","Markets","Pyomo"],
+              "kpis": [
+                {"num":"15–20 yrs","txt":"horizon"},
+                {"num":"LOLE ≤ 3 h/yr","txt":"adequacy target"},
+                {"num":"CO₂ budget","txt":"policy aligned"}
+              ],
+              "summary": "For a private entity evaluating medium- to long-term investment options, we built a transparent capacity expansion model in. It selects what to build/retire and when, so the portfolio meets demand, emissions budgets, and adequacy targets (e.g., LOLE) at least cost. Policy instruments (CfDs, caps/floors, carbon budgets) are togglable; results are delivered as an auditable roadmap rather than a black-box forecast.",
+              "gallery": [
+                { "src": "assets/case/ce-build-timeline.png",       "alt": "Annual build timeline by technology",     "caption": "Least-cost build/retire schedule by year and technology." },
+                { "src": "assets/case/ce-mix-2035.png",             "alt": "Resource mix snapshot",                    "caption": "Installed capacity mix in target year with reserve margin." },
+                { "src": "assets/case/ce-emissions-trajectory.png", "alt": "Emissions trajectory vs budget",           "caption": "Cumulative CO₂ vs budget with sensitivity bands." },
+                { "src": "assets/case/ce-adequacy-curve.png",       "alt": "Resource adequacy curve",                  "caption": "Effective firm capacity vs LOLE target across scenarios." },
+                { "src": "assets/case/ce-policy-sensitivity.png",   "alt": "Policy sensitivity waterfall",             "caption": "Impact of CfDs/carbon/caps on NPV and build timing." }
+              ],
+              "code": "minimize Σ_t (capex_build_t + fixed_opex_t + var_opex_t + policy_costs_t)\nsubject to demand balance, reserve/LOLE, emissions budget, build/retire dynamics, and policy constraints",
+              "sections": [
+                [
+                  "Client context & ask",
+                  "A private market participant needed an auditable roadmap for when/what to build or retire across a 15–20 year horizon, consistent with demand growth, CO₂ budgets, and reliability targets - without relying on vendor black boxes."
+                ],
+                [
+                  "Problem",
+                  "Choose the least-cost portfolio over time (build, retire, life-extend) that serves load, meets a resource adequacy standard, and respects a CO₂ budget, while reflecting realistic policy incentives and constraints."
+                ],
+                [
+                  "Approach",
+                  "Pyomo-based, stage-wise capacity expansion (perfect-foresight baseline). Myopic and stochastic variants are available for sensitivity. Costs include capex with learning, fixed/variable opex, fuel, and policy cashflows. Adequacy enforced via reserve margin or LOLE proxy; emissions via annual or cumulative budget."
+                ],
+                [
+                  "Data",
+                  "Demand trajectories, technology cost/efficiency/availability, retirements, fuel/CO₂ price paths, policy parameters (CfD strike/tenor, caps/floors), and simple network topology (zonal transfer limits if needed). All inputs version-controlled."
+                ],
+                [
+                  "Model & methods",
+                  "• Vars: build_t,g, retire_t,g, capacity_t,g, dispatch_t,g; optional storage energy/power with state-of-charge.\n• Objective: net present cost minimization with discounting.\n• Constraints: demand balance; effective firm capacity ≥ target (or LOLE proxy); ramp/energy limits; minimum up/down or UC proxy; emissions budget; build/retire dynamics & lead times; policy eligibility caps.\n• Optional network: zonal supply/transfer bounds and capacity credits by zone."
+                ],
+                [
+                  "Policy levers",
+                  "CfDs (strike/tenor), carbon budgets/prices, cap-and-floor, investment tax credits, capacity payments and auction caps, connection queue/lead-time rules."
+                ],
+                [
+                  "Scenarios",
+                  "Fuel and carbon price bands, demand growth (P50/P90), technology learning curves, policy toggles, and availability stress. Selected stochastic draws (weather/availability) can be folded into the stage costs."
+                ],
+                [
+                  "Results (decision use)",
+                  "Build timeline by technology and zone, retirements, capacity mix, emissions trajectory vs budget, levelised costs, and adequacy metrics. Clear identification of ‘must-build’ years, deferrable options, and policy-sensitive choices."
+                ],
+                [
+                  "Validation & governance",
+                  "Back-checks against historical mixes and public benchmarks, sensitivity to discount/capex/availability, and reconciliation of adequacy proxies. Every run is logged (parameters + commit hash) for audit."
+                ],
+                [
+                  "Deliverables",
+                  "Runnable Pyomo repo with tests/CI, parameter sheets, scenario configs, CSV/Parquet outputs, and lightweight notebooks: build timeline, mix snapshots, emissions/Adequacy charts, and policy waterfalls."
+                ],
+                [
+                  "Limits & next steps",
+                  "Dispatch detail is stylised (UC approximated). Next steps: tighter UC/operability checks on shortlisted years, expanded transmission treatment for binding corridors, and option valuation for staged builds."
+                ]
+              ]
+            }
+,
       "Arbitrage-Ancillary": {
           "title": "Battery Arbitrage + Ancillary Co-Optimisation (PyPSA)",
           "subtitle": "Single-shot LP with in-model reserve, spread, ramps, and SoC deliverability.",
