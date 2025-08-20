@@ -372,3 +372,204 @@ document.addEventListener("click", async (e) => {
     }
   });
 })();
+// ===== Portfolio pager (desktop: 3×2 pages; mobile falls back) =====
+(function initPortfolioPager(){
+  const section = document.querySelector('#models');
+  if (!section) return;
+
+  const container = section.querySelector('.container');
+  const sourceGrid = container.querySelector('.cards'); // original grid
+  if (!sourceGrid) return;
+
+  // Build pager shell right after the original grid
+  const wrap = document.createElement('div');
+  wrap.className = 'port-wrap';
+  wrap.setAttribute('aria-roledescription', 'carousel');
+
+  const prev = document.createElement('button');
+  prev.className = 'port-nav prev';
+  prev.setAttribute('aria-label', 'Previous');
+  prev.textContent = '←';
+
+  const next = document.createElement('button');
+  next.className = 'port-nav next';
+  next.setAttribute('aria-label', 'Next');
+  next.textContent = '→';
+
+  const view = document.createElement('div');
+  view.className = 'port-view';
+  view.setAttribute('tabindex', '0'); // keyboard focus
+
+  const track = document.createElement('div');
+  track.className = 'port-track';
+
+  const dots = document.createElement('div');
+  dots.className = 'port-dots';
+  dots.setAttribute('role', 'tablist');
+
+  view.appendChild(track);
+  wrap.appendChild(prev);
+  wrap.appendChild(view);
+  wrap.appendChild(next);
+  wrap.appendChild(dots);
+
+  // Insert pager after the existing grid (kept as data source)
+  sourceGrid.parentNode.insertBefore(wrap, sourceGrid.nextSibling);
+
+  let pageIndex = 0;
+  let pageCount = 0;
+
+  function getVisibleCards() {
+    // Only use cards that are actually visible (respecting your filter chips)
+    return Array.from(sourceGrid.querySelectorAll('.model'))
+      .filter(card => getComputedStyle(card).display !== 'none');
+  }
+
+  function activateDot(i) {
+    dots.querySelectorAll('.port-dot').forEach((d, idx) => {
+      d.classList.toggle('is-active', idx === i);
+    });
+  }
+
+  function scrollToPage(i) {
+    const slide = track.children[i];
+    if (!slide) return;
+    view.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
+  }
+
+  function rebuild() {
+    const desktop = window.matchMedia('(min-width: 960px)').matches;
+
+    // Reset UI
+    track.innerHTML = '';
+    dots.innerHTML = '';
+
+    if (!desktop) {
+      // Show original grid on mobile/tablet
+      sourceGrid.style.display = '';
+      return;
+    }
+
+    // Desktop: hide source grid, use pager
+    sourceGrid.style.display = 'none';
+
+    const cards = getVisibleCards();
+    pageCount = Math.max(1, Math.ceil(cards.length / 6));
+    for (let p = 0; p < pageCount; p++) {
+      const slide = document.createElement('div');
+      slide.className = 'port-slide';
+
+      const grid = document.createElement('div');
+      grid.className = 'grid-3 cards';
+
+      cards.slice(p * 6, (p + 1) * 6).forEach(card => {
+        grid.appendChild(card.cloneNode(true)); // clone; keep source untouched
+      });
+
+      slide.appendChild(grid);
+      track.appendChild(slide);
+
+      const dot = document.createElement('button');
+      dot.className = 'port-dot';
+      dot.setAttribute('role', 'tab');
+      dot.setAttribute('aria-label', `Go to page ${p + 1}`);
+      dot.addEventListener('click', () => scrollToPage(p));
+      dots.appendChild(dot);
+    }
+
+    pageIndex = 0;
+    activateDot(0);
+    view.scrollTo({ left: 0, behavior: 'auto' });
+  }
+
+  // Nav
+  prev.addEventListener('click', () => {
+    if (pageIndex > 0) scrollToPage(pageIndex - 1);
+  });
+  next.addEventListener('click', () => {
+    if (pageIndex < pageCount - 1) scrollToPage(pageIndex + 1);
+  });
+
+  // Update active dot on scroll end
+  view.addEventListener('scroll', () => {
+    window.clearTimeout(view._snapT);
+    view._snapT = setTimeout(() => {
+      const idx = Math.round(view.scrollLeft / view.clientWidth);
+      if (idx !== pageIndex) {
+        pageIndex = idx;
+        activateDot(idx);
+      }
+    }, 80);
+  });
+
+  // Rebuild when:
+  rebuild();
+  window.addEventListener('resize', rebuild);
+
+  // …filters change (hook the existing chips too)
+  section.querySelectorAll('.filters .chip').forEach(chip => {
+    chip.addEventListener('click', () => setTimeout(rebuild, 0));
+  });
+
+  // Expose a manual hook if you ever need it
+  window.portfolioPager = { rebuild };
+})();
+// ---- Portfolio: mobile-only carousel pager (first 6 items) ----
+(function initMobilePortfolioPager(){
+  const cards = document.querySelector('#models .cards');
+  if (!cards) return;
+
+  // only apply on narrow screens
+  const isNarrow = () => window.matchMedia('(max-width: 720px)').matches;
+
+  function mountPager() {
+    // remove existing pager if any
+    cards.nextElementSibling?.classList?.contains('mob-pager') && cards.nextElementSibling.remove();
+
+    const visible = Array.from(cards.children).filter((el, i) =>
+      el.classList.contains('model') && i < 6 && getComputedStyle(el).display !== 'none'
+    );
+    if (!isNarrow() || visible.length <= 1) return;
+
+    const pager = document.createElement('div');
+    pager.className = 'mob-pager';
+    visible.forEach(() => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'mob-dot';
+      pager.appendChild(dot);
+    });
+    cards.after(pager);
+
+    const dots = pager.querySelectorAll('.mob-dot');
+
+    const setActive = () => {
+      let best = 0, bestDist = Infinity;
+      const mid = cards.scrollLeft + cards.clientWidth / 2;
+      visible.forEach((el, idx) => {
+        const center = el.offsetLeft + el.clientWidth / 2;
+        const d = Math.abs(center - mid);
+        if (d < bestDist) { bestDist = d; best = idx; }
+      });
+      dots.forEach((d, i) => d.classList.toggle('is-active', i === best));
+    };
+
+    // click a dot to jump
+    dots.forEach((d, i) => d.addEventListener('click', () => {
+      const target = visible[i];
+      if (!target) return;
+      const left = target.offsetLeft - 12; // small leading padding
+      cards.scrollTo({ left, behavior: 'smooth' });
+    }));
+
+    // keep active dot updated
+    const onScroll = () => requestAnimationFrame(setActive);
+    cards.addEventListener('scroll', onScroll);
+    window.addEventListener('resize', () => isNarrow() ? setActive() : mountPager());
+    setActive();
+  }
+
+  // run now and on resize breakpoint changes
+  mountPager();
+  window.addEventListener('resize', mountPager);
+})();
