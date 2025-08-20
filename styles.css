@@ -414,3 +414,34 @@ section[id] { scroll-margin-top: 72px; }
   font-size: .9rem;
   color: var(--muted);
 }
+/* --- Hero: mobile optimizations --- */
+@media (max-width: 768px) {
+  .hero { padding-top: 4.25rem; }            /* less headroom under the sticky header */
+  .hero .grid-2 { gap: 1.2rem; }             /* tighter column gap on phones */
+
+  .hero .h1 {                                 /* scale headline a touch smaller */
+    font-size: clamp(1.65rem, 6.2vw + .5rem, 2.1rem);
+  }
+  .hero .lead { font-size: 1rem; }
+
+  /* KPIs wrap instead of forcing a wide row */
+  .kpis {
+    flex-wrap: wrap;
+    gap: .8rem 1.2rem;
+  }
+  .kpi {
+    flex: 1 1 calc(50% - 1.2rem);            /* two per row on small screens */
+    min-width: 120px;
+  }
+
+  /* Code card: ensure it never overflows, and make the monospace text friendlier */
+  .hero-panel .code-card { max-width: 100%; }
+  .hero-panel .code-card pre {
+    font-size: .9rem;
+    line-height: 1.4;
+    overflow-x: auto;                         /* keep any long lines inside the card */
+  }
+}
+
+/* Prevent rogue horizontal scrolling in the hero on iOS (fixed layers/orbs) */
+#hero { overflow-x: clip; }
