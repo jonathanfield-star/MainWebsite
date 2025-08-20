@@ -343,7 +343,7 @@ section[id] { scroll-margin-top: 72px; }
 }
 .p-card.is-active {
   transform: none;        /* no scale => crisp text, no pop */
-  opacity: 1;
+  opacity: 1.0;
   border-color: color-mix(in srgb, var(--brand) 32%, var(--border));
   box-shadow: 0 10px 28px rgba(59,130,246,.14);
 }
