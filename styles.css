@@ -523,3 +523,44 @@ section[id] { scroll-margin-top: 72px; }
 }
 .lb-close { position: absolute; top: 1rem; right: 1rem; }
 @media (max-width: 960px){ .lightbox { grid-template-columns: 44px 1fr 44px; } }
+
+
+/* --- Section flow arrows --- */
+#case-sections .flow-card {
+  position: relative;
+  margin-bottom: 2.4rem; /* room for the arrow connector */
+}
+
+/* vertical connector line */
+#case-sections .flow-card:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -22px;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 16px;
+  background: var(--border);
+  opacity: 0.9;
+}
+
+/* arrow head */
+#case-sections .flow-card:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -30px;
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid var(--border);
+  border-bottom: 2px solid var(--border);
+  background: transparent;
+  opacity: 0.9;
+}
+
+/* keep it crisp on hover/focus too */
+#case-sections .flow-card:hover::after,
+#case-sections .flow-card:hover::before {
+  opacity: 1;
+}

@@ -261,17 +261,17 @@ if (summaryEl) {
 }
 
   // Sections
-  const sectionsEl = document.getElementById("case-sections")?.querySelector(".container");
-  if (sectionsEl && Array.isArray(cs.sections)) {
-    sectionsEl.innerHTML = cs.sections.map(([h, p]) => `
-      <div class="card" style="margin-bottom:1rem;">
-        <div class="card-body">
-          <h3 class="card-title">${h}</h3>
-          <p class="card-text">${p}</p>
-        </div>
+  const sectionsEl = document.querySelector("#case-sections .container");
+if (sectionsEl && Array.isArray(cs.sections)) {
+  sectionsEl.innerHTML = cs.sections.map(([h, p]) => `
+    <div class="card flow-card">
+      <div class="card-body">
+        <h3 class="card-title">${h}</h3>
+        <p class="card-text">${p}</p>
       </div>
-    `).join("");
-  }
+    </div>
+  `).join("");
+}
 
   // Prev/Next links
   const order = dataset.order || [];
