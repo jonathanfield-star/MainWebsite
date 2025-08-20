@@ -352,7 +352,7 @@ section[id] { scroll-margin-top: 72px; }
 .p-nav {
   position: absolute; top: 50%; transform: translateY(-50%);
   width: 42px; height: 42px; border-radius: 999px;
-  border: 1px solid var(--border);
+  border: 1.0px solid var(--border);
   background: color-mix(in srgb, var(--bg-alt) 80%, transparent);
   backdrop-filter: blur(4px);
   color: var(--text);
