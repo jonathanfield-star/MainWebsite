@@ -98,7 +98,7 @@
         <div class="card">
           <div class="card-body">
             <h3 class="card-title">Have a similar challenge?</h3>
-            <p class="card-text">I can adapt this approach to your system and constraints.</p>
+            <p class="card-text">We can adapt this approach to your system and constraints.</p>
           </div>
           <div class="card-actions">
             <a class="btn" href="index.html#contact">Start a project</a>
@@ -180,16 +180,45 @@
         ]
       },
       "microgrid": {
-        "title": "Microgrid Design Tool",
-        "subtitle": "PV-BESS-genset MILP for reliability and cost.",
-        "tags": ["Microgrid","Storage","MILP"],
-        "kpis": [{"num":"99.95%","txt":"served load"},{"num":"$","txt":"NPC min"},{"num":"CO₂","txt":"reduction"}],
-        "summary": "Sizing and dispatch co-optimisation for remote sites with outage survivability constraints.",
-        "code": "min NPC with reliability ≥ target; variables: PV, BESS, genset sizes and dispatch",
-        "sections": [
-          ["Approach","Hourly demand & weather; LOLP constraints; generator wear costs; demand response toggles."]
-        ]
-      },
+  "title": "Battery Arbitrage + Ancillary Co-Optimisation (PyPSA)",
+  "subtitle": "Single-shot LP with in-model reserve, spread, ramps, and SoC deliverability.",
+  "tags": ["Storage","Markets","PyPSA"],
+  "kpis": [
+    {"num":"34.0 MW","txt":"optimal reserve R*"},
+    {"num":"€245k","txt":"total profit (Jan 2025)"},
+    {"num":"12 MW/h","txt":"ramp limit"},
+    {"num":"744 h","txt":"horizon"}
+  ],
+  "summary": "We co-optimise a 50 MW / 200 MWh battery between energy arbitrage and a month-fixed ancillary service commitment. The model embeds a continuous reserve variable R inside the LP, applies a realistic buy/sell spread, daily-varying prices with noise/spikes, optional ramp limits, and an SoC floor for deliverability. Output includes the chosen reserve, arbitrage dispatch, and a transparent profit breakdown.",
+  "code": "=== Arbitrage + Ancillary Reserve (single-shot LP; January 2025) ===\nBattery Pmax (nameplate):    50.00 MW   | max_hours = 4 h\nChosen reserve (fixed R):    34.02 MW\nUsable for arbitrage:        15.98 MW   | energy headroom ≤ 63.91 MWh\nReserve rate:                €7.00 per MW per hour\nReserve revenue:             €177,192.58\n---- Arbitrage component -------------------------------------\nImported energy:             2,902.56 MWh @ avg 50.11 €/MWh (buy spread applied)\nExported energy:             2,581.60 MWh @ avg 82.75 €/MWh (sell spread applied)\nImport cost:                 €145,456.06\nExport revenue:              €213,615.97\n---------------------------------------------------------------\nTOTAL PROFIT:                €245,352.49",
+  "sections": [
+    [
+      "Problem",
+      "How much of a battery’s capacity should be committed to a month-fixed ancillary service versus kept flexible for energy arbitrage? The objective is to maximise profit while meeting market deliverability and operational limits."
+    ],
+    [
+      "Approach",
+      "Single-shot LP using PyPSA’s linopy backend with an in-model reserve decision R (MW) and constraints that block R from arbitrage headroom (power + optional energy). Prices vary hour-to-hour (weekday effects, noise, evening spikes). A bid-ask spread is applied (buy higher, sell lower). Optional ramp limits couple successive hours; an SoC floor guarantees R×τ deliverability at all times."
+    ],
+    [
+      "Model & Methods",
+      "• Variables: storage p_charge, p_discharge, SoC, and scalar R.\n• Objective: minimise cost = buy_cost − sell_revenue − reserve_revenue.\n• Constraints: power balance; SoC dynamics & bounds; p_dis + R ≤ Pmax; p_ch + R ≤ Pmax; SoC + R·H ≤ Pmax·H; (optional) SoC ≥ R·τ; (optional) |Δp| ≤ ramp for charge and discharge.\n• Uses PyPSA snapshot weightings so MW×h accounting matches the solver objective."
+    ],
+    [
+      "Results",
+      "With ramps active and a €7/MW/h reserve rate, the LP selects a partial reserve (R≈34 MW) and retains ~16 MW for arbitrage. Profit splits into steady reserve revenue plus volatile but positive arbitrage returns, demonstrating why real operators often blend services rather than go all-or-nothing."
+    ],
+    [
+      "What-if levers",
+      "• Reserve price sensitivity (€/MW/h)\n• Spread and intraday volatility\n• Ramp limits (operational realism)\n• Deliverability duration τ (SoC floor)\n• Power/energy sizing (Pmax, max_hours)\n• Market windows for reserve (hour subsets)"
+    ],
+    [
+      "Deliverables",
+      "Clean, parameterised Python scripts (model + plotting), NetCDF outputs for downstream analytics, and an interactive Plotly chart for Import/Export/SOC. Optional notebooks for sensitivity runs and a compact dashboard for stakeholders."
+    ]
+  ]
+}
+,
       "curtailment": {
         "title": "Curtailment Minimisation",
         "subtitle": "Redispatch & storage arbitrage to reduce RES spill.",

@@ -181,7 +181,7 @@ document.addEventListener("click", async (e) => {
             <p class="card-text">${cs.summary || ""}</p>
           </div>
           <div class="card-actions">
-            <a class="btn" href="index.html#contact">Work with me</a>
+            <a class="btn" href="index.html#contact">Work with us</a>
             <a class="btn btn-ghost" href="projects.html">Back to Projects</a>
           </div>
         </div>
