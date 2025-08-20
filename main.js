@@ -46,13 +46,17 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
   if (!section) return;
   const filterChips = section.querySelectorAll(".filters .chip");
   const modelCards = section.querySelectorAll(".model");
+
   function applyFilter(tag) {
     modelCards.forEach(card => {
       const tags = (card.getAttribute("data-tags") || "").split(/\s+/);
       const show = tag === "all" || tags.includes(tag);
       card.style.display = show ? "" : "none";
     });
+    // NEW: tell the pager things changed
+    document.dispatchEvent(new CustomEvent("portfolio:filter", { detail: { tag } }));
   }
+
   filterChips.forEach(chip => {
     chip.addEventListener("click", () => {
       filterChips.forEach(c => c.classList.remove("is-active"));
@@ -514,26 +518,45 @@ document.addEventListener("click", async (e) => {
   // Expose a manual hook if you ever need it
   window.portfolioPager = { rebuild };
 })();
-// ---- Portfolio: mobile-only carousel pager (first 6 items) ----
+// ---- Portfolio: mobile-only carousel pager (first 6 visible items) ----
 (function initMobilePortfolioPager(){
   const cards = document.querySelector('#models .cards');
   if (!cards) return;
 
-  // only apply on narrow screens
   const isNarrow = () => window.matchMedia('(max-width: 720px)').matches;
 
-  function mountPager() {
-    // remove existing pager if any
-    cards.nextElementSibling?.classList?.contains('mob-pager') && cards.nextElementSibling.remove();
-
-    const visible = Array.from(cards.children).filter((el, i) =>
-      el.classList.contains('model') && i < 6 && getComputedStyle(el).display !== 'none'
+  function visibleModels() {
+    return Array.from(cards.children).filter(el =>
+      el.classList?.contains('model') &&
+      getComputedStyle(el).display !== 'none'
     );
-    if (!isNarrow() || visible.length <= 1) return;
+  }
+
+  function applyMobileLimit() {
+    const list = visibleModels();
+    // reset any previous hiding
+    Array.from(cards.children).forEach(el => el.classList?.remove('mobi-hide'));
+    if (!isNarrow()) return;
+    // hide anything after the first 6 *visible* items
+    list.slice(6).forEach(el => el.classList.add('mobi-hide'));
+  }
+
+  function removePager() {
+    if (cards.nextElementSibling?.classList?.contains('mob-pager')) {
+      cards.nextElementSibling.remove();
+    }
+  }
+
+  function buildPager() {
+    removePager();
+    if (!isNarrow()) return;
+
+    const list = visibleModels().filter(el => !el.classList.contains('mobi-hide'));
+    if (list.length <= 1) return;
 
     const pager = document.createElement('div');
     pager.className = 'mob-pager';
-    visible.forEach(() => {
+    list.forEach(() => {
       const dot = document.createElement('button');
       dot.type = 'button';
       dot.className = 'mob-dot';
@@ -544,9 +567,11 @@ document.addEventListener("click", async (e) => {
     const dots = pager.querySelectorAll('.mob-dot');
 
     const setActive = () => {
-      let best = 0, bestDist = Infinity;
+      if (!dots.length) return;
+      // pick the item whose center is nearest viewport center
       const mid = cards.scrollLeft + cards.clientWidth / 2;
-      visible.forEach((el, idx) => {
+      let best = 0, bestDist = Infinity;
+      list.forEach((el, idx) => {
         const center = el.offsetLeft + el.clientWidth / 2;
         const d = Math.abs(center - mid);
         if (d < bestDist) { bestDist = d; best = idx; }
@@ -556,20 +581,42 @@ document.addEventListener("click", async (e) => {
 
     // click a dot to jump
     dots.forEach((d, i) => d.addEventListener('click', () => {
-      const target = visible[i];
+      const target = list[i];
       if (!target) return;
-      const left = target.offsetLeft - 12; // small leading padding
+      const left = target.offsetLeft - 12;
       cards.scrollTo({ left, behavior: 'smooth' });
     }));
 
     // keep active dot updated
     const onScroll = () => requestAnimationFrame(setActive);
-    cards.addEventListener('scroll', onScroll);
-    window.addEventListener('resize', () => isNarrow() ? setActive() : mountPager());
+    cards.addEventListener('scroll', onScroll, { passive: true });
+
+    // initialize
     setActive();
   }
 
-  // run now and on resize breakpoint changes
-  mountPager();
-  window.addEventListener('resize', mountPager);
+  function refresh(resetScroll = false) {
+    applyMobileLimit();
+    if (resetScroll) cards.scrollTo({ left: 0 });
+    buildPager();
+  }
+
+  // initial mount
+  refresh(true);
+
+  // update when filters change
+  document.addEventListener('portfolio:filter', () => refresh(true));
+
+  // update on resize / breakpoint changes
+  let lastNarrow = isNarrow();
+  window.addEventListener('resize', () => {
+    const now = isNarrow();
+    if (now !== lastNarrow) {
+      lastNarrow = now;
+      refresh(true);
+    } else {
+      // width changed within same mode: still refresh in case card widths changed
+      refresh(false);
+    }
+  });
 })();

@@ -556,34 +556,32 @@ section[id] { scroll-margin-top: 72px; }
 /* ===== Portfolio: mobile carousel (limit to 6) ===== */
 @media (max-width: 720px) {
   #models .cards {
-    display: flex;                 /* replace grid with a row */
+    display: flex;
     gap: 0.9rem;
     overflow-x: auto;
     overflow-y: visible;
     padding: .25rem .4rem 1rem;
-    scroll-snap-type: x mandatory; /* nice snap scrolling */
+    scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
-    /* subtle edge fade so it feels "contained" */
     --fade: 18px;
     -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--fade), #000 calc(100% - var(--fade)), transparent 100%);
             mask-image: linear-gradient(to right, transparent 0, #000 var(--fade), #000 calc(100% - var(--fade)), transparent 100%);
   }
 
-  /* Each card takes most of the viewport width */
   #models .cards > .model {
     flex: 0 0 86%;
     scroll-snap-align: start;
     min-width: 0;
   }
 
-  /* Hide everything after the 6th card on narrow screens */
-  #models .cards > .model:nth-child(n+7) { display: none; }
+  /* NEW: hide any “extra” items via a class we toggle in JS */
+  #models .cards > .model.mobi-hide { display: none !important; }
 
   /* Hide the scrollbar (still scrollable) */
   #models .cards::-webkit-scrollbar { display: none; }
   #models .cards { scrollbar-width: none; }
 
-  /* Mobile pager dots */
+  /* Pager dots */
   .mob-pager {
     display: flex;
     justify-content: center;
