@@ -388,17 +388,61 @@
           ]
         }
 ,
-      "curtailment": {
-        "title": "Curtailment Minimisation",
-        "subtitle": "Redispatch & storage arbitrage to reduce RES spill.",
-        "tags": ["Markets","Grid","PyPSA"],
-        "kpis": [{"num":"-21–34%","txt":"curtailment"},{"num":"LMP","txt":"spread cut"},{"num":"$","txt":"savings"}],
-        "summary": "Evaluate storage siting and redispatch rules to cut RES curtailment.",
-        "code": "min curtailment + redispatch_cost subject to network and unit constraints",
-        "sections": [
-          ["Approach","Storage siting heuristic + DCOPF redispatch; constraint shadow price diagnostics."]
-        ]
-      },
+"curtailment": {
+  "title": "Monetising Stranded Energy: BTC Miners vs Battery vs Base Case (PyPSA)",
+  "subtitle": "Head-to-head economics using PyPSA surplus runs and scenario analysis.",
+  "tags": ["Onsite","Markets","PyPSA"],
+  "kpis": [
+    {"num":"£2.9m NPV","txt":"BTC miners over 4-yr model life (8% discount)"},
+    {"num":"~10.8 GWh","txt":"stranded MWh monetised"},
+    {"num":"1–10 MW","txt":"blocks tested; 5 MW recommended"}
+  ],
+  "summary": "A private owner of a stranded energy source asked us to evaluate three paths: leave energy unused (base case), install a modest battery, or deploy containerised Bitcoin miners as a flexible offtake. We used PyPSA to simulate hourly surplus MWh at the site under connection constraints, then layered cash-flow models for each option across market and cost scenarios. Results showed BTC miners provided the strongest risk-adjusted economics at the tested scales, with clear guidance on block size and rollout timing.",
+  "gallery": [
+      { "src": "assets/5/1.png","alt": "Hourly surplus profile",       "caption": "Representative week of stranded MWh from the PyPSA run (site connection limits applied)." },
+      { "src": "assets/5/3.png", "alt": "NPV comparison across options", "caption": "NPV across Base Case, BTC by block size, and BESS by E/P, based on PyPSA-derived surplus." },
+    { "src": "assets/5/2.png",      "alt": "BTC breakeven curve",          "caption": "Breakeven hashprice vs effective site £/MWh for 5–10 MW blocks." }
+
+  ],
+  "code": "for each scenario s:\n  run PyPSA → hourly surplus_s (MWh)\n  BTC_cashflow_s = revenue(hashprice_s, difficulty_s, MW_block, availability, parasitics) − capex − opex\n  BESS_cashflow_s = arbitrage(surplus_s, price_s, E/P, η) − capex − opex\n  Base_cashflow_s = 0\n  compute NPV/IRR; recommend size and rollout triggers",
+  "sections": [
+    [
+      "Client context",
+      "A private asset owner with recurring curtailed/stranded generation wanted to understand whether onsite monetisation made sense. The brief: compare BTC miners, a small BESS, and the base case on a like-for-like basis, using a modelling approach they could audit and reuse."
+    ],
+    [
+      "Approach",
+      "PyPSA generated an hourly surplus profile at the point of interconnection, reflecting site connection limits and local dispatch effects. We then evaluated three options: (A) Base case (no action); (B) BTC miners in modular containers, parameterised by block size (1–10 MW), availability, parasitic load (cooling/network), and market trajectories; (C) BESS with selectable E/P, round-trip efficiency, and export price proxy. Each option used discounted cash flows with capex/opex, operating assumptions, and salvage."
+    ],
+    [
+      "Inputs",
+      "• Surplus MWh (hourly) from PyPSA; connection/export caps.\n• BTC: block size, ASIC efficiency proxy, availability, parasitics/PUE, capex/opex, hashprice & difficulty paths (base/low/high).\n• BESS: E (MWh), P (MW), η, capex/opex, simple export price curve and cycling limits.\n• Finance: discount rate (8%), horizon (4 years), salvage."
+    ],
+    [
+      "Scenarios",
+      "Market bands for hashprice/difficulty, surplus shape (seasonal vs spiky), BTC capex and availability ranges, BESS cost and E/P variants, and export price sensitivities. Each scenario reuses the PyPSA surplus to ensure consistency."
+    ],
+    [
+      "Results & recommendation",
+      "Across the tested scenarios, BTC miners delivered a positive NPV of **~£2.9m** over a 4-year model life at an 8% discount rate, monetising **~10.8 GWh** of otherwise stranded energy. A **5 MW initial block** with an option to scale to 10 MW achieved the best balance of utilisation and capex. The BESS alternative improved local flexibility but trailed in NPV under current capex and export pricing assumptions, while the base case remained value-neutral. We recommended a staged BTC rollout with explicit triggers for expansion based on realised hashprice and uptime."
+    ],
+    [
+      "Implementation considerations",
+      "Electrical integration (step-down and switchboard capacity), cooling performance across seasons, noise/footprint, and telemetry for power-quality and automated curtailment capture. If grid-connected, demand-response windows can be respected via throttling."
+    ],
+    [
+      "Deliverables",
+      "Executable PyPSA repository with parameters and scenario configs, plus concise outputs: option NPV comparison, BTC breakeven curve (hashprice vs £/MWh), surplus profile, and a short memo summarising assumptions and decision triggers."
+    ],
+    [
+      "Limits & next steps",
+      "This is an engineering-economics assessment, not investment advice. Next steps include vendor quotations, thermal validation at the site, and a short pilot to verify uptime/PUE before scaling."
+    ]
+  ]
+}
+
+
+,
       "ev-charging": {
         "title": "EV Charging Scheduler",
         "subtitle": "Stochastic scheduling for DA & imbalance markets.",

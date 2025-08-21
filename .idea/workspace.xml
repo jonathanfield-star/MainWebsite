@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="81db8d7e-c54e-44a4-b4ca-2e20fa9714b4" name="Changes" comment="Mian">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/3/ce_adequacy_curve.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/3/ce_build_timeline.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/3/ce_emissions_trajectory.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/case-study.html" beforeDir="false" afterPath="$PROJECT_DIR$/case-study.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -270,7 +273,55 @@
       <option name="project" value="LOCAL" />
       <updated>1755709456091</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Mian">
+      <option name="closed" value="true" />
+      <created>1755710671252</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1755710671252</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Mian">
+      <option name="closed" value="true" />
+      <created>1755710692544</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1755710692545</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Mian">
+      <option name="closed" value="true" />
+      <created>1755711504220</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1755711504220</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Mian">
+      <option name="closed" value="true" />
+      <created>1755711575848</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1755711575848</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Mian">
+      <option name="closed" value="true" />
+      <created>1755712132998</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1755712132998</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Mian">
+      <option name="closed" value="true" />
+      <created>1755712370160</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1755712370160</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
