@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="81db8d7e-c54e-44a4-b4ca-2e20fa9714b4" name="Changes" comment="Mian">
-      <change beforePath="$PROJECT_DIR$/assets/3/ce_adequacy_curve.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/3/ce_build_timeline.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/3/ce_emissions_trajectory.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/case-study.html" beforeDir="false" afterPath="$PROJECT_DIR$/case-study.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-    </list>
+    <list default="true" id="81db8d7e-c54e-44a4-b4ca-2e20fa9714b4" name="Changes" comment="Mian" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -321,7 +315,15 @@
       <option name="project" value="LOCAL" />
       <updated>1755712370160</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Mian">
+      <option name="closed" value="true" />
+      <created>1755773842775</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1755773842775</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
