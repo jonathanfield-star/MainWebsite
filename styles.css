@@ -523,7 +523,14 @@ section[id] { scroll-margin-top: 72px; }
 }
 .lb-close { position: absolute; top: 1rem; right: 1rem; }
 @media (max-width: 960px){ .lightbox { grid-template-columns: 44px 1fr 44px; } }
+/* When there's only 1 image, show it as a single large tile */
+.gallery-grid.single {
+  grid-template-columns: 1fr; /* turn the 2x2 into one big column */
+}
 
+.gallery-grid.single .gallery-item {
+  aspect-ratio: 16 / 9;       /* make it feel hero-sized */
+}
 
 /* --- Section flow arrows --- */
 #case-sections .flow-card {

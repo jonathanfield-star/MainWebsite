@@ -170,11 +170,11 @@ document.addEventListener("click", async (e) => {
     `).join("");
   }
 
-  // Summary block (left) + code/figure (right)
-  // Summary (left) + Gallery (right)
+// Summary (left) + Gallery (right)
 const summaryEl = document.getElementById("case-summary");
 if (summaryEl) {
   const gallery = Array.isArray(cs.gallery) ? cs.gallery : [];
+  const isSingle = gallery.length === 1; // NEW
 
   const thumbs = gallery.slice(0, 4).map((img, i) => `
     <button class="gallery-item" data-index="${i}" aria-label="Open image ${i+1}${img.caption ? `: ${img.caption}` : ''}">
@@ -199,7 +199,7 @@ if (summaryEl) {
     <div>
       ${
         gallery.length
-          ? `<div id="case-gallery" class="gallery-grid" role="list">${thumbs}</div>`
+          ? `<div id="case-gallery" class="gallery-grid${isSingle ? ' single' : ''}" role="list">${thumbs}</div>`
           : `<div class="card"><div class="card-body"><p class="card-text">Add a <code>gallery</code> array for this case to show images.</p></div></div>`
       }
     </div>
