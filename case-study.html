@@ -210,10 +210,9 @@
           ],
           "summary": "A private wind developer asked us to size a co-located battery to maximise NPV by storing excess wind (curtailment/clipping) and reselling to the grid. We built a transparent Pyomo MILP that chooses power (MW) and energy (MWh), respecting connection limits, round-trip losses, and cell aging. The model weighs capex/opex against stacked revenues (onsite spill capture + arbitrage; optional services where eligible) and returns a size with clear economics, sensitivities, and what-ifs they can rerun in-house.",
           "gallery": [
-            { "src": "assets/2/1.png", "alt": "Curtailment capture with BESS", "caption": "How the BESS absorbs onsite excess wind and shifts it into higher-value periods." },
-            { "src": "assets/2/2.png",       "alt": "Pareto of MW/MWh trade-offs",  "caption": "NPV surface across power and energy; dot marks chosen size." },
-            { "src": "assets/2/1.jpg",    "alt": "Price-duration & dispatch",   "caption": "Charge/discharge overlay on the price-duration curve (representative week)." }
-
+            { "src": "assets/2/1.png", "alt": "Pareto of MW/MWh trade-offs",  "caption": "NPV surface across power and energy; dot marks chosen size." },
+            { "src": "assets/2/2.png",       "alt": "Price-duration & dispatch",   "caption": "Charge/discharge overlay on the price-duration curve (representative week)." },
+            { "src": "assets/2/3.png",    "alt": "Curtailment capture with BESS", "caption": "How the BESS absorbs onsite excess wind and shifts it into higher-value periods." }
           ],
           "code": "maximize NPV(build_P_MW, build_E_MWh)\nsubject to SoC dynamics, connection headroom, efficiency losses, and degradation costs",
           "sections": [
