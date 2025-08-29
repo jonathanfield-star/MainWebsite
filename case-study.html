@@ -442,16 +442,91 @@
 
 ,
       "ev-charging": {
-        "title": "EV Charging Scheduler",
-        "subtitle": "Stochastic scheduling for DA & imbalance markets.",
-        "tags": ["Markets","Storage","Stochastic"],
-        "kpis": [{"num":"-12%","txt":"energy cost"},{"num":"95%","txt":"SoC targets"},{"num":"Grid","txt":"limits respected"}],
-        "summary": "Chance-constrained scheduling of EV fleets with feeder constraints and price uncertainty.",
-        "code": "min expected_cost with SoC chance constraints and line ampacity limits",
-        "sections": [
-          ["Approach","Scenario set from historical DA/imbalance; feeder headroom constraint; rolling re-optimisation."]
-        ]
-      }
+  "title": "EV Charging Scheduler",
+  "subtitle": "Chance-constrained, rolling-horizon scheduling for DA & imbalance markets with feeder limits.",
+  "tags": ["Markets","Storage","Stochastic","Operations","V2G"],
+  "kpis": [
+    {"num":"−10–20%","txt":"energy cost vs baseline"},
+    {"num":"≥95%","txt":"SoC target compliance"},
+    {"num":"0","txt":"feeder violations"},
+    {"num":"< 45 s","txt":"solve per horizon (100 EVs)"}
+  ],
+  "summary": "We built a transparent EV fleet scheduler that co-optimises charging across day-ahead (DA) and imbalance markets under uncertainty. The model respects transformer/feeder headroom, connector limits, and per-vehicle targets (SoC by departure) using chance constraints at a chosen reliability level (e.g., 95%). A rolling horizon re-optimises on telemetry (arrivals, early departures, route changes) every 15–30 minutes; optional V2G can provide peak shaving or reserve. The result is lower energy cost, high on-time readiness, and zero grid violations—with clear levers for price volatility, demand growth, and depot upgrades.",
+  "gallery": [
+    { "src": "assets/6/3.png",   "alt": "Price-duration with charge overlay",     "caption": "DA/ID price-duration curve with scheduled charging overlay (representative day)." },
+    { "src": "assets/6/2.png","alt": "Feeder headroom vs EV aggregate load",  "caption": "Aggregate EV charging vs feeder headroom; shaded band shows 95% uncertainty envelope." },
+    { "src": "assets/6/1.png", "alt": "SoC compliance at departures",          "caption": "Required vs achieved SoC at departures; violations flagged and root-caused." }
+
+  ],
+  "code": "minimize  E[cost] = Σ_t ( p_DA_t·buy_DA_t + p_ID_t·buy_ID_t + demand_charge_t ) − Σ_t r_t·export_t  \\nsubject to\\n  • SoC dynamics per EV: SoC_{v,t+1} = SoC_{v,t} + η_c·P^chg_{v,t}·Δt − (1/η_d)·P^dis_{v,t}·Δt − drive_{v,t} \\n  • Availability: P^chg_{v,t} = P^dis_{v,t} = 0 if v ∉ plugged_t; one connector per EV; phase/connector bounds \\n  • Power bounds: 0 ≤ P^chg_{v,t} ≤ P^max_{v}; 0 ≤ P^dis_{v,t} ≤ P^{V2G}_{v} (if enabled) \\n  • SoC bounds & targets: 0 ≤ SoC_{v,t} ≤ E_v;  P( SoC_{v,dep} ≥ SoC^{req}_{v} ) ≥ 1 − α_SoC  (chance) \\n  • Feeder/transformer: P( base_t + Σ_v (P^chg_{v,t} − P^dis_{v,t}) ≤ H_t ) ≥ 1 − α_grid  (chance) \\n  • Market logic: DA schedule fixed; ID adjustments within recourse bounds; export allowed if V2G on \\n  • Optional fairness: Σ_t P^chg_{v,t} ≥ q_v · Σ_t Σ_u P^chg_{u,t}  (service-level floor) \\nVariables: P^chg_{v,t}, P^dis_{v,t}, SoC_{v,t}, buy_DA_t, buy_ID_t, export_t, aux binaries for session/connector. ",
+  "sections": [
+    [
+      "Client context & ask",
+      "A logistics operator with two depots and ~120 light-duty EVs wanted to reduce energy costs and demand charges while guaranteeing per-vehicle SoC at departure and avoiding feeder/transformer overloads. They needed a scheduler that reacts to DA/imbalance prices, uncertain arrivals, and operational interruptions—without relying on opaque vendor tools."
+    ],
+    [
+      "Problem",
+      "Compute a charging (and optional discharging) plan that minimizes expected cost across DA and imbalance markets while meeting SoC-by-departure targets and respecting physical limits: feeder/transformer headroom, per-connector power and simultaneity, phase balancing, and plug-in windows."
+    ],
+    [
+      "Approach (stochastic MILP with chance constraints)",
+      "We formulate a MILP with chance constraints on SoC compliance and feeder limits. Uncertainty is represented by a compact scenario set: DA forecast with spreads, imbalance price distributions, route energy variability, and stochastic arrivals. The reliability level (e.g., 95%) is configurable per depot. A rolling horizon re-optimises every 15–30 minutes with telemetry, fixing near-term decisions and recourse-adjusting the rest."
+    ],
+    [
+      "Decision variables",
+      "• Per-EV charge/discharge power by interval (kW)\\n• SoC trajectory (kWh)\\n• DA energy buys, ID adjustments, optional exports (V2G)\\n• Binary/session variables for connector assignment and simultaneity"
+    ],
+    [
+      "Constraints",
+      "• SoC dynamics with efficiency and drive consumption\\n• Availability (only when plugged), one-connector-per-EV, optional min session length\\n• Per-connector and per-vehicle max power; phase caps if required\\n• Feeder/transformer headroom by interval; optional demand-charge window caps\\n• SoC-by-departure targets (chance) with slack and penalty for graceful degradation\\n• Market recourse: DA schedule fixed within a lock window; ID adjusts within bounds"
+    ],
+    [
+      "Uncertainty & chance constraints",
+      "We use scenario-based approximation: SoC and feeder constraints must hold for at least ⌈(1−α)·|S|⌉ scenarios. Scenarios combine price draws (DA forecast ± quantiles; imbalance AR(1) noise), route energy bands (P50/P90), and arrival time jitter. Violations incur large penalties but are practically eliminated at α ≤ 5%."
+    ],
+    [
+      "Data & integrations",
+      "• Prices: DA tariff & imbalance history/forecasts\\n• Site: base load, feeder/transformer ratings, any curtailment windows\\n• Vehicles: battery E_v, max charge power, optional V2G power, efficiencies, plug-in windows, routes/targets\\n• Hardware: connector ratings, simultaneity rules, phase mapping\\n• Telemetry: arrivals/SoC via depot metering or telematics API"
+    ],
+    [
+      "Rolling horizon & recourse",
+      "At each control step, we fix the next K intervals (e.g., 1–2 hours) from the last solve, ingest new telemetry/forecasts, and re-solve for the remaining horizon. This provides robustness to early departures, late arrivals, or unexpected base-load spikes."
+    ],
+    [
+      "V2G & demand charges (optional)",
+      "If hardware and policy allow, EVs can discharge within SoC and connector bounds to shave peaks or sell into markets. Demand-charge logic tracks windowed maximum demand and penalizes schedules that exceed historical baselines, aligning with typical tariff structures."
+    ],
+    [
+      "Fairness & priorities",
+      "Priority tiers (e.g., next-shift vans, critical routes) are encoded via weighted penalties or minimum energy floors. A fairness constraint prevents long-tail vehicles from being starved when capacity is scarce."
+    ],
+    [
+      "Solution & performance",
+      "Implemented in Pyomo; solved with HiGHS/CBC (open-source) or Gurobi/CPLEX. For ~100 EVs × 48 intervals with ~200 scenarios compressed to ~20 effective scenarios, typical solve is <45 s per horizon on a laptop. Tightening α or adding V2G increases complexity; presolve and warm starts keep runtimes stable."
+    ],
+    [
+      "Outputs (for decisions)",
+      "• Per-vehicle charging timetable and SoC trajectories\\n• Aggregate depot load vs headroom with 95% band\\n• Price-duration overlays and market split (DA vs ID)\\n• Savings waterfall vs baseline (flat charging or naive TOU)\\n• Violation report (if any) with root causes and suggested mitigations"
+    ],
+    [
+      "Validation",
+      "Back-tests over historical weeks with replayed telemetry; stress tests on base-load spikes and clustered arrivals; A/B comparisons vs naive and vendor heuristics. Sensitivity to α, scenario size, and feeder headroom confirms robustness."
+    ],
+    [
+      "Results (example insights)",
+      "Cost savings of −10–20% vs baseline across depots; ≥95% SoC compliance at departures; zero feeder violations. Most savings come from shifting to off-peak and exploiting imbalance spreads on low-risk hours; V2G adds marginal value primarily as peak-shave insurance."
+    ],
+    [
+      "Governance & reproducibility",
+      "All runs are logged with parameters, solver settings, and commit hashes. Inputs/outputs are versioned (CSV/Parquet). Configuration is YAML-driven per depot with unit checks and schema validation."
+    ],
+    [
+      "Limits & next steps",
+      "Announced model excludes detailed distribution network AC effects and charger thermal derating. Next steps include transformer thermal state modeling, richer ID market participation (explicit bids), and learning-based scenario generation for tighter chance-constraint calibration."
+    ]
+  ]
+}
+
     }
   }
   </script>
