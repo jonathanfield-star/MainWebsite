@@ -148,7 +148,7 @@
             {"num":"Stack","txt":"merit-order & price-duration"},
             {"num":"Zonal","txt":"dispatch & simple flows"}
           ],
-          "summary": "A private market participant asked for a clear, defensible view of how the broader GB system dispatches through the year and where their candidate assets sit in the merit order. We built a tractable PyPSA dispatch with zonal DC flow, stack modelling, and simple unit limits so they could see optimal dispatch, curtailment exposure, and expected running hours by scenario—without black-box magic.",
+          "summary": "A private market participant asked for a clear, defensible view of how the broader GB system dispatches through the year and where their candidate assets sit in the merit order. We built a tractable PyPSA dispatch with zonal DC flow, stack modelling, and simple unit limits so they could see optimal dispatch, curtailment exposure, and expected running hours by scenario: without black-box magic.",
           "gallery": [
 
             { "src": "assets/1/2.jpg",   "alt": "Zonal dispatch and flows",             "caption": "Simple demonstrative stack by region (simplified regions)" }
@@ -162,7 +162,7 @@
             ],
             [
               "Problem",
-              "Estimate optimal dispatch of generation assets and the client’s stack position under realistic price/load conditions, with enough grid context to catch obvious constraints—while keeping the model transparent and quick to iterate."
+              "Estimate optimal dispatch of generation assets and the client’s stack position under realistic price/load conditions, with enough grid context to catch obvious constraints, while keeping the model transparent and quick to iterate."
             ],
             [
               "Approach",
@@ -200,7 +200,7 @@
         }
 ,
       "battery-sizing": {
-          "title": "Wind Co-location: Battery Sizing for NPV (Pyomo)",
+          "title": "Wind Co-location: Battery Sizing for NPV",
           "subtitle": "Right-sized MW/MWh to capture excess wind and resell to grid, with losses and degradation.",
           "tags": ["Storage","Planning","Pyomo"],
           "kpis": [
@@ -208,7 +208,7 @@
             {"num":"~0.8–1.4 h","txt":"optimal E/P in tests"},
             {"num":"< 2 min","txt":"solve per weekly run"}
           ],
-          "summary": "A private wind developer asked us to size a co-located battery to maximise NPV by storing excess wind (curtailment/clipping) and reselling to the grid. We built a transparent Pyomo MILP that chooses power (MW) and energy (MWh), respecting connection limits, round-trip losses, and cell aging. The model weighs capex/opex against stacked revenues (onsite spill capture + arbitrage; optional services where eligible) and returns a size with clear economics, sensitivities, and what-ifs they can rerun in-house.",
+          "summary": "We sized a battery co-located with wind to maximise NPV by storing excess wind (curtailment/clipping) and reselling to the grid. We built a transparent PYPSA-based model that chooses power (MW) and energy (MWh), respecting connection limits, round-trip losses, and cell aging. The model weighs capex/opex against stacked revenues (onsite spill capture + arbitrage; optional services where eligible) and returns a size with clear economics, sensitivities, and what-ifs they can rerun in-house.",
           "gallery": [
             { "src": "assets/2/1.png", "alt": "Pareto of MW/MWh trade-offs",  "caption": "NPV surface across power and energy; dot marks chosen size." },
             { "src": "assets/2/2.png",       "alt": "Price-duration & dispatch",   "caption": "Charge/discharge overlay on the price-duration curve (representative week)." },
@@ -217,15 +217,15 @@
           "code": "maximize NPV(build_P_MW, build_E_MWh)\nsubject to SoC dynamics, connection headroom, efficiency losses, and degradation costs",
           "sections": [
             [
-              "Client context & ask",
-              "A private wind developer wanted to add BESS at an existing site to monetise spill and time-shift output. They needed a defendable MW/MWh size that maximises NPV under realistic prices, losses, and aging—without black-box assumptions."
+              "Context & ask",
+              "A private wind developer wanted to add BESS at an existing site to monetise spill and time-shift output. They needed a defendable MW/MWh size that maximises NPV under realistic prices, losses, and aging, without black-box assumptions."
             ],
             [
               "Problem",
-              "Select the power and energy rating that best converts excess wind into revenue, subject to grid connection limits, co-location rules, round-trip efficiency, and battery degradation—while keeping capex in check."
+              "Select the power and energy rating that best converts excess wind into revenue, subject to grid connection limits, co-location rules, round-trip efficiency, and battery degradation, while keeping capex in check."
             ],
             [
-              "Approach (Pyomo MILP)",
+              "Approach",
               "We formulated a tractable MILP that endogenously chooses build_P (MW) and build_E (MWh). The model co-optimises hourly charge/discharge to capture onsite excess and arbitrage into higher-value hours. Losses and simple unit limits are included; optional service revenues can be toggled by eligibility flags."
             ],
             [
@@ -266,7 +266,7 @@
             ],
             [
               "Deliverables",
-              "Clean Pyomo repo (tests/CI), parameter sheets, scenario configs, CSV/Parquet outputs, and lightweight notebooks: NPV surface, Pareto front, price-duration with dispatch overlay, and degradation trajectories."
+              "Clean PYPSA repo (tests/CI), parameter sheets, scenario configs, CSV/Parquet outputs, and lightweight notebooks: NPV surface, Pareto front, price-duration with dispatch overlay, and degradation trajectories."
             ],
             [
               "Limits & next steps",
