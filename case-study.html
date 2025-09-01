@@ -284,7 +284,7 @@
                 {"num":"LOLE ≤ 3 h/yr","txt":"adequacy target"},
                 {"num":"CO₂ budget","txt":"policy aligned"}
               ],
-              "summary": "For a private entity evaluating medium- to long-term investment options, we built a transparent capacity expansion model in. It selects what to build/retire and when, so the portfolio meets demand, emissions budgets, and adequacy targets (e.g., LOLE) at least cost. Policy instruments (CfDs, caps/floors, carbon budgets) are togglable; results are delivered as an auditable roadmap rather than a black-box forecast.",
+              "summary": "For a private entity evaluating medium - to long-term investment options, we built a transparent capacity expansion model in. It selects what to build/retire and when, so the portfolio meets demand, emissions budgets, and adequacy targets (e.g., LOLE) at least cost. Policy instruments (CfDs, caps/floors, carbon budgets) are togglable; results are delivered as an auditable roadmap rather than a black-box forecast.",
               "gallery": [
                 { "src": "assets/3/1.png",       "alt": "Annual build timeline by technology",     "caption": "Least-cost build/retire schedule by year and technology." },
                 { "src": "assets/3/3.png",             "alt": "Resource mix snapshot",                    "caption": "Installed capacity mix in target year with reserve margin." },
@@ -341,7 +341,7 @@
             }
 ,
       "Arbitrage-Ancillary": {
-          "title": "Battery Arbitrage + Ancillary Co-Optimisation (PyPSA)",
+          "title": "Battery Arbitrage + Ancillary Co-Optimisation",
           "subtitle": "Single-shot LP with in-model reserve, spread, ramps, and SoC deliverability.",
           "tags": ["Storage","Markets","PyPSA"],
           "kpis": [
@@ -387,7 +387,7 @@
         }
 ,
 "curtailment": {
-  "title": "Monetising Stranded Energy: BTC Miners vs Battery vs Base Case (PyPSA)",
+  "title": "Monetising Stranded Energy",
   "subtitle": "Head-to-head economics using PyPSA surplus runs and scenario analysis.",
   "tags": ["Onsite","Markets","PyPSA"],
   "kpis": [
@@ -395,7 +395,7 @@
     {"num":"~10.8 GWh","txt":"stranded MWh monetised"},
     {"num":"1–10 MW","txt":"blocks tested; 5 MW recommended"}
   ],
-  "summary": "A private owner of a stranded energy source asked us to evaluate three paths: leave energy unused (base case), install a modest battery, or deploy containerised Bitcoin miners as a flexible offtake. We used PyPSA to simulate hourly surplus MWh at the site under connection constraints, then layered cash-flow models for each option across market and cost scenarios. Results showed BTC miners provided the strongest risk-adjusted economics at the tested scales, with clear guidance on block size and rollout timing.",
+  "summary": "We evaluated monetising a stranded energy source using three paths: leave energy unused (base case), install a modest battery, or deploy containerised Bitcoin miners as a flexible offtake. We used PyPSA to simulate hourly surplus MWh at the site under connection constraints, then layered cash-flow models for each option across market and cost scenarios. Results showed BTC miners provided the strongest risk-adjusted economics at the tested scales, with clear guidance on block size and rollout timing.",
   "gallery": [
       { "src": "assets/5/1.png","alt": "Hourly surplus profile",       "caption": "Representative week of stranded MWh from the PyPSA run (site connection limits applied)." },
       { "src": "assets/5/3.png", "alt": "NPV comparison across options", "caption": "NPV across Base Case, BTC by block size, and BESS by E/P, based on PyPSA-derived surplus." },
@@ -405,8 +405,8 @@
   "code": "for each scenario s:\n  run PyPSA → hourly surplus_s (MWh)\n  BTC_cashflow_s = revenue(hashprice_s, difficulty_s, MW_block, availability, parasitics) − capex − opex\n  BESS_cashflow_s = arbitrage(surplus_s, price_s, E/P, η) − capex − opex\n  Base_cashflow_s = 0\n  compute NPV/IRR; recommend size and rollout triggers",
   "sections": [
     [
-      "Client context",
-      "A private asset owner with recurring curtailed/stranded generation wanted to understand whether onsite monetisation made sense. The brief: compare BTC miners, a small BESS, and the base case on a like-for-like basis, using a modelling approach they could audit and reuse."
+      "Project context",
+      "An asset owner with recurring curtailed/stranded generation wanted to understand whether onsite monetisation made sense. The brief: compare BTC miners, a small BESS, and the base case on a like-for-like basis, using a modelling approach they could audit and reuse."
     ],
     [
       "Approach",
@@ -422,7 +422,7 @@
     ],
     [
       "Results & recommendation",
-      "Across the tested scenarios, BTC miners delivered a positive NPV of **~£2.9m** over a 4-year model life at an 8% discount rate, monetising **~10.8 GWh** of otherwise stranded energy. A **5 MW initial block** with an option to scale to 10 MW achieved the best balance of utilisation and capex. The BESS alternative improved local flexibility but trailed in NPV under current capex and export pricing assumptions, while the base case remained value-neutral. We recommended a staged BTC rollout with explicit triggers for expansion based on realised hashprice and uptime."
+      "Across the tested scenarios, BTC miners delivered a positive NPV of £2.9m over a 4-year model life at an 8% discount rate, monetising 10.8 GWh of otherwise stranded energy. A 5 MW initial block with an option to scale to 10 MW achieved the best balance of utilisation and capex. The BESS alternative improved local flexibility but trailed in NPV under current capex and export pricing assumptions, while the base case remained value-neutral. We recommended a staged BTC rollout with explicit triggers for expansion based on realised hashprice and uptime."
     ],
     [
       "Implementation considerations",
@@ -451,7 +451,7 @@
     {"num":"0","txt":"feeder violations"},
     {"num":"< 45 s","txt":"solve per horizon (100 EVs)"}
   ],
-  "summary": "We built a transparent EV fleet scheduler that co-optimises charging across day-ahead (DA) and imbalance markets under uncertainty. The model respects transformer/feeder headroom, connector limits, and per-vehicle targets (SoC by departure) using chance constraints at a chosen reliability level (e.g., 95%). A rolling horizon re-optimises on telemetry (arrivals, early departures, route changes) every 15–30 minutes; optional V2G can provide peak shaving or reserve. The result is lower energy cost, high on-time readiness, and zero grid violations—with clear levers for price volatility, demand growth, and depot upgrades.",
+  "summary": "We built a transparent EV fleet scheduler that co-optimises charging across day-ahead (DA) and imbalance markets under uncertainty. The model respects transformer/feeder headroom, connector limits, and per-vehicle targets (SoC by departure) using chance constraints at a chosen reliability level (e.g., 95%). A rolling horizon re-optimises on telemetry (arrivals, early departures, route changes) every 15–30 minutes; optional V2G can provide peak shaving or reserve. The result is lower energy cost, high on-time readiness, and zero grid violations, with clear levers for price volatility, demand growth, and depot upgrades.",
   "gallery": [
     { "src": "assets/6/3.png",   "alt": "Price-duration with charge overlay",     "caption": "DA/ID price-duration curve with scheduled charging overlay (representative day)." },
     { "src": "assets/6/2.png","alt": "Feeder headroom vs EV aggregate load",  "caption": "Aggregate EV charging vs feeder headroom; shaded band shows 95% uncertainty envelope." },
@@ -461,8 +461,8 @@
   "code": "minimize  E[cost] = Σ_t ( p_DA_t·buy_DA_t + p_ID_t·buy_ID_t + demand_charge_t ) − Σ_t r_t·export_t  \\nsubject to\\n  • SoC dynamics per EV: SoC_{v,t+1} = SoC_{v,t} + η_c·P^chg_{v,t}·Δt − (1/η_d)·P^dis_{v,t}·Δt − drive_{v,t} \\n  • Availability: P^chg_{v,t} = P^dis_{v,t} = 0 if v ∉ plugged_t; one connector per EV; phase/connector bounds \\n  • Power bounds: 0 ≤ P^chg_{v,t} ≤ P^max_{v}; 0 ≤ P^dis_{v,t} ≤ P^{V2G}_{v} (if enabled) \\n  • SoC bounds & targets: 0 ≤ SoC_{v,t} ≤ E_v;  P( SoC_{v,dep} ≥ SoC^{req}_{v} ) ≥ 1 − α_SoC  (chance) \\n  • Feeder/transformer: P( base_t + Σ_v (P^chg_{v,t} − P^dis_{v,t}) ≤ H_t ) ≥ 1 − α_grid  (chance) \\n  • Market logic: DA schedule fixed; ID adjustments within recourse bounds; export allowed if V2G on \\n  • Optional fairness: Σ_t P^chg_{v,t} ≥ q_v · Σ_t Σ_u P^chg_{u,t}  (service-level floor) \\nVariables: P^chg_{v,t}, P^dis_{v,t}, SoC_{v,t}, buy_DA_t, buy_ID_t, export_t, aux binaries for session/connector. ",
   "sections": [
     [
-      "Client context & ask",
-      "A logistics operator with two depots and ~120 light-duty EVs wanted to reduce energy costs and demand charges while guaranteeing per-vehicle SoC at departure and avoiding feeder/transformer overloads. They needed a scheduler that reacts to DA/imbalance prices, uncertain arrivals, and operational interruptions—without relying on opaque vendor tools."
+      "Context & ask",
+      "We looked at reducing energy costs and demand charges for depot of 120 light-duty EVs, while guaranteeing per-vehicle SoC at departure and avoiding feeder/transformer overloads. We needed a scheduler that reacts to DA/imbalance prices, uncertain arrivals, and operational interruptions, without relying on opaque vendor tools."
     ],
     [
       "Problem",
@@ -474,11 +474,11 @@
     ],
     [
       "Decision variables",
-      "• Per-EV charge/discharge power by interval (kW)\\n• SoC trajectory (kWh)\\n• DA energy buys, ID adjustments, optional exports (V2G)\\n• Binary/session variables for connector assignment and simultaneity"
+      "• Per-EV charge/discharge power by interval (kW)\n• SoC trajectory (kWh)\n• DA energy buys, ID adjustments, optional exports (V2G)\n• Binary/session variables for connector assignment and simultaneity"
     ],
     [
       "Constraints",
-      "• SoC dynamics with efficiency and drive consumption\\n• Availability (only when plugged), one-connector-per-EV, optional min session length\\n• Per-connector and per-vehicle max power; phase caps if required\\n• Feeder/transformer headroom by interval; optional demand-charge window caps\\n• SoC-by-departure targets (chance) with slack and penalty for graceful degradation\\n• Market recourse: DA schedule fixed within a lock window; ID adjusts within bounds"
+      "• SoC dynamics with efficiency and drive consumption\n• Availability (only when plugged), one-connector-per-EV, optional min session length\n• Per-connector and per-vehicle max power; phase caps if required\n• Feeder/transformer headroom by interval; optional demand-charge window caps\n• SoC-by-departure targets (chance) with slack and penalty for graceful degradation\n• Market recourse: DA schedule fixed within a lock window; ID adjusts within bounds"
     ],
     [
       "Uncertainty & chance constraints",
@@ -486,7 +486,7 @@
     ],
     [
       "Data & integrations",
-      "• Prices: DA tariff & imbalance history/forecasts\\n• Site: base load, feeder/transformer ratings, any curtailment windows\\n• Vehicles: battery E_v, max charge power, optional V2G power, efficiencies, plug-in windows, routes/targets\\n• Hardware: connector ratings, simultaneity rules, phase mapping\\n• Telemetry: arrivals/SoC via depot metering or telematics API"
+      "• Prices: DA tariff & imbalance history/forecasts\n• Site: base load, feeder/transformer ratings, any curtailment windows\n• Vehicles: battery E_v, max charge power, optional V2G power, efficiencies, plug-in windows, routes/targets\n• Hardware: connector ratings, simultaneity rules, phase mapping\n• Telemetry: arrivals/SoC via depot metering or telematics API"
     ],
     [
       "Rolling horizon & recourse",
@@ -506,7 +506,7 @@
     ],
     [
       "Outputs (for decisions)",
-      "• Per-vehicle charging timetable and SoC trajectories\\n• Aggregate depot load vs headroom with 95% band\\n• Price-duration overlays and market split (DA vs ID)\\n• Savings waterfall vs baseline (flat charging or naive TOU)\\n• Violation report (if any) with root causes and suggested mitigations"
+      "• Per-vehicle charging timetable and SoC trajectories\n• Aggregate depot load vs headroom with 95% band\n• Price-duration overlays and market split (DA vs ID)\n• Savings waterfall vs baseline (flat charging or naive TOU)\n• Violation report (if any) with root causes and suggested mitigations"
     ],
     [
       "Validation",

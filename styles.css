@@ -571,3 +571,5 @@ section[id] { scroll-margin-top: 72px; }
 #case-sections .flow-card:hover::before {
   opacity: 1;
 }
+/* Render \n as actual line breaks in section text */
+#case-sections p { white-space: pre-line; }
